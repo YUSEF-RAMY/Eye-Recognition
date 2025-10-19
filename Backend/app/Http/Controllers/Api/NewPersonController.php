@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -11,7 +12,7 @@ class NewPersonController extends Controller
 {
     public function index()
     {
-        return response()->json(Person::all());
+        return PersonResource::collection(Person::latest()->get());
     }
 
     public function store(Request $request)
@@ -38,7 +39,7 @@ class NewPersonController extends Controller
 
         return response()->json([
             'message' => 'Person added successfully',
-            'person' => $person,
+            'person' => new PersonResource($person),
         ], 201);
     }
 }
