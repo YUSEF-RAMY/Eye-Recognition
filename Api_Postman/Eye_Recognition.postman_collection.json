@@ -9,6 +9,9 @@
 		{
 			"name": "Login",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -49,14 +52,7 @@
 			"name": "Register",
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [
@@ -80,6 +76,11 @@
 							"type": "text"
 						},
 						{
+							"key": "image",
+							"type": "file",
+							"src": []
+						},
+						{
 							"key": "password",
 							"value": "",
 							"type": "text"
@@ -99,6 +100,187 @@
 					"path": [
 						"api",
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/show-user-info",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"show-user-info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recognize",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/recognize",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"recognize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Person",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/add-person",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"add-person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "current_password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "new_password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "new_password_confirmation",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/update-password",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"update-password"
 					]
 				}
 			},
@@ -133,6 +315,50 @@
 					"path": [
 						"api",
 						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Profile_Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/update-profile-image",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"update-profile-image"
 					]
 				}
 			},
