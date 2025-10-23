@@ -16,6 +16,9 @@ class RecognitionController extends Controller
             'image' => 'required|image|max:4096',
         ]);
 
+        $path = $request->file('image')->store('recognitions', 'public');
+        $imageUrl = asset('storage/' . $path);
+
         try {
             $response = Http::attach(
                 'image',
@@ -38,6 +41,7 @@ class RecognitionController extends Controller
                     return response()->json([
                         'status' => 'recognized',
                         'name' => $data['name'],
+                        'image' => $imageUrl,
                         'confidence' => round($data['confidence'] * 100, 2) . '%',
                     ]);
                 } else {

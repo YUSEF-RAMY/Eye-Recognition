@@ -17,19 +17,21 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
-        
+
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['error' => 'Invalid Login Credentials'], 401);
         }
 
         $token = $user->createToken('mobile')->plainTextToken;
 
-        return (new UserResource($user))->additional([
-            'token' => $token,
-            'message' => 'You Have Been Logged In Successfully',
-        ], 200);
+        return (new UserResource($user))->additional(
+            [
+                'token' => $token,
+                'message' => 'You Have Been Logged In Successfully',
+            ],
+        );
     }
 
     public function register(Request $request)
@@ -38,20 +40,32 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'image' => 'nullable|image|max:4096',
         ]);
+
+        $url = null; 
+        if($request->hasFile('image')){
+            $path = $request->file('image')->store('users', 'public');
+            $url = asset('storage/'. $path);
+        }else{
+            $url = asset('storage/people/user-1.jpeg');
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'image_path' => $url,
         ]);
 
         $token = $user->createToken('mobile')->plainTextToken;
 
-        return (new UserResource($user))->additional([
-            'token' => $token,
-            'message' => 'You Have Been Registered Successfully',
-        ], 201);
+        return (new UserResource($user))->additional(
+            [
+                'token' => $token,
+                'message' => 'You Have Been Registered Successfully',
+            ],
+        );
     }
 
     public function logout(Request $request)
