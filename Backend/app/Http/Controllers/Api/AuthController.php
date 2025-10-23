@@ -26,11 +26,9 @@ class AuthController extends Controller
 
         $token = $user->createToken('mobile')->plainTextToken;
 
-        $user->update(['state' => 'Online']);
-
         return (new UserResource($user))->additional([
-            'Token' => $token,
-            'Message' => 'You Have Been Logged In Successfully',
+            'token' => $token,
+            'message' => 'You Have Been Logged In Successfully',
         ], 200);
     }
 
@@ -51,14 +49,14 @@ class AuthController extends Controller
         $token = $user->createToken('mobile')->plainTextToken;
 
         return (new UserResource($user))->additional([
-            'Token' => $token,
-            'Message' => 'You Have Been Registered Successfully',
+            'token' => $token,
+            'message' => 'You Have Been Registered Successfully',
         ], 201);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['Message' => 'You Have Been Logged Out Successfully'], 200);
+        return response()->json(['message' => 'You Have Been Logged Out Successfully'], 200);
     }
 }
