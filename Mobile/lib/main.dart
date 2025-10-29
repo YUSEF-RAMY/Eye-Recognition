@@ -25,6 +25,7 @@ class EyeRecognition extends StatelessWidget {
         SplashScreen.id : (context) => SplashScreen(),
         WelcomeScreen.id : (context) => WelcomeScreen(),
         LoginScreen.id : (context) => LoginScreen(),
+        UploadProfilePhotoScreen.id : (context) => UploadProfilePhotoScreen(),
         SignupScreen.id : (context) => SignupScreen(),
         HomeScreen.id : (context) => HomeScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
