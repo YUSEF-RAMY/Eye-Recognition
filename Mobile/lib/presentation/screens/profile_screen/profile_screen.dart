@@ -1,4 +1,5 @@
 import 'package:eye_recognition/presentation/components/custom_button.dart';
+import 'package:eye_recognition/presentation/components/navbar.dart';
 import 'package:eye_recognition/presentation/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import '../../resources/image_manager.dart';
@@ -17,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              SizedBox(height: 12,),
+              SizedBox(height: 12),
               Text(
                 'Profile',
                 style: TextStyle(
@@ -26,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
                   color: ColorManager.white,
                 ),
               ),
-              SizedBox(height: 24,),
+              SizedBox(height: 24),
               Container(
                 height: 144,
                 width: 144,
@@ -54,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ), //user image
               ),
-              SizedBox(height: 8,),
+              SizedBox(height: 8),
               Text(
                 'maryam mahmoud',
                 style: TextStyle(
@@ -63,14 +64,17 @@ class ProfileScreen extends StatelessWidget {
                   color: ColorManager.white,
                 ),
               ),
-              Spacer(flex: 2,),
+              Spacer(flex: 2),
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xff1F336D),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 20.0,
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -123,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(flex: 5,),
+              Spacer(flex: 5),
               CustomButton(
                 text: 'Change password',
                 onTap: () {},
@@ -131,7 +135,7 @@ class ProfileScreen extends StatelessWidget {
                 isPrimaryTextColor: false,
                 isTransparent: true,
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
               CustomButton(
                 text: 'Logout',
                 onTap: () {},
@@ -139,7 +143,8 @@ class ProfileScreen extends StatelessWidget {
                 isPrimaryTextColor: false,
                 isTransparent: false,
               ),
-              Spacer(flex: 3,)
+              Spacer(flex: 3),
+              Navbar(isHome: false,isProfile: true,),
             ],
           ),
         ),

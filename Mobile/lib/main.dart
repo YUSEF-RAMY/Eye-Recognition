@@ -32,7 +32,7 @@ class EyeRecognition extends StatelessWidget {
         ProfileScreen.id : (context) => ProfileScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
       },
-      initialRoute: ProfileScreen.id,
+      initialRoute: HomeScreen.id,
     );
   }
 }
