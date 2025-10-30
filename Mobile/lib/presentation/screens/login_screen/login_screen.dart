@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              ImageManager.loginAndSignupBackgroundImage,
+              ImageManager.BackgroundImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -78,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomButton(
                     text: 'Login',
                     isWhite: false,
+                    isTransparent: false,
+                    isPrimaryTextColor: false,
                     onTap: () async {
                       log(
                         'email: ${emailController.text} \n password: ${passwordController.text}',

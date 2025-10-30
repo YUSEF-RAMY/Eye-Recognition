@@ -20,7 +20,7 @@ class RegisterButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         isSignup
-            ? Navigator.pushReplacementNamed(context, SignupScreen.id)
+            ? Navigator.pushReplacementNamed(context, UploadProfilePhotoScreen.id)
             : Navigator.pushReplacementNamed(context, LoginScreen.id);
       },
       child: Container(
