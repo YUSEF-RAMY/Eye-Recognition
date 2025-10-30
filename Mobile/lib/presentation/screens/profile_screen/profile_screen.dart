@@ -1,6 +1,7 @@
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/components/navbar.dart';
 import 'package:eye_recognition/presentation/resources/color_manager.dart';
+import 'package:eye_recognition/presentation/screens/change_password_screen/change_password_screen.dart';
 import 'package:flutter/material.dart';
 import '../../resources/image_manager.dart';
 
@@ -130,7 +131,12 @@ class ProfileScreen extends StatelessWidget {
               Spacer(flex: 5),
               CustomButton(
                 text: 'Change password',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    ChangePasswordScreen.id,
+                  );
+                },
                 isWhite: true,
                 isPrimaryTextColor: false,
                 isTransparent: true,
@@ -144,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                 isTransparent: false,
               ),
               Spacer(flex: 3),
-              Navbar(isHome: false,isProfile: true,),
+              Navbar(isHome: false, isProfile: true),
             ],
           ),
         ),
