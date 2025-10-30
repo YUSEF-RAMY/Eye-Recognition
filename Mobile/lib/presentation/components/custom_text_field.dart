@@ -5,7 +5,7 @@ class CustomTextField extends StatefulWidget {
   CustomTextField({
     super.key,
     required this.hintText,
-    required this.labelText,
+    this.labelText,
     required this.controller,
     this.obscureText = false,
     this.isSecureText = false,
@@ -31,18 +31,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.obscureText,
       decoration: InputDecoration(
         filled: true,
-        fillColor: ColorManager.white,
+        fillColor: Colors.transparent,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: ColorManager.gray, width: 1.3),
+          borderSide: BorderSide(color: ColorManager.gray, width: 1.4),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: ColorManager.gray, width: 1.3),
+          borderSide: BorderSide(color: ColorManager.gray, width: 1.4),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: ColorManager.gray, width: 1.3),
+          borderSide: BorderSide(color: ColorManager.gray, width: 1.4),
         ),
         labelText: widget.labelText,
         labelStyle: TextStyle(
@@ -67,7 +67,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 icon: Icon(
                   widget.obscureText?Icons.visibility_off_rounded:Icons.visibility_rounded,
                   size: 24,
-                  color: ColorManager.black,
+                  color: ColorManager.gray,
                 ),
               )
             : null,

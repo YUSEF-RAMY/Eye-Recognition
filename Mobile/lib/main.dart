@@ -1,3 +1,4 @@
+import 'package:eye_recognition/presentation/screens/change_password_screen/change_password_screen.dart';
 import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dart';
 import 'package:eye_recognition/presentation/screens/profile_screen/profile_screen.dart';
 import 'package:eye_recognition/presentation/screens/results_screen/results_screen.dart';
@@ -30,9 +31,10 @@ class EyeRecognition extends StatelessWidget {
         SignupScreen.id : (context) => SignupScreen(),
         HomeScreen.id : (context) => HomeScreen(),
         ProfileScreen.id : (context) => ProfileScreen(),
+        ChangePasswordScreen.id : (context) => ChangePasswordScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
       },
-      initialRoute: HomeScreen.id,
+      initialRoute: ProfileScreen.id,
     );
   }
 }
