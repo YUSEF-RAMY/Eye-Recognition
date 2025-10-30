@@ -33,7 +33,7 @@ class SignupScreen extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              ImageManager.loginAndSignupBackgroundImage,
+              ImageManager.BackgroundImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -89,6 +89,8 @@ class SignupScreen extends StatelessWidget {
                     CustomButton(
                       text: 'Signup',
                       isWhite: false,
+                      isTransparent: false,
+                      isPrimaryTextColor: false,
                       onTap: () async {
                         log(
                           'email: ${emailController.text} \n password: ${passwordController.text}',

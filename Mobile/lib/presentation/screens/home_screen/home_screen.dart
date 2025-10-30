@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              ImageManager.loginAndSignupBackgroundImage,
+              ImageManager.BackgroundImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -74,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomButton(
                   text: 'Choose photo',
                   isWhite: true,
+                  isTransparent: false,
+                  isPrimaryTextColor: false,
                   onTap: () async {
                     await pickImage(ImageSource.gallery);
                     log(EyeRecognition.token);
@@ -90,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomButton(
                   text: 'Take photo',
                   isWhite: false,
-                  isHomeButton: true,
+                  isTransparent: false,
+                  isPrimaryTextColor: true,
                   onTap: () async {
                     await pickImage(ImageSource.camera);
                     log(EyeRecognition.token);

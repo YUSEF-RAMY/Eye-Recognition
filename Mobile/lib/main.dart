@@ -30,7 +30,7 @@ class EyeRecognition extends StatelessWidget {
         HomeScreen.id : (context) => HomeScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
       },
-      initialRoute: SplashScreen.id,
+      initialRoute: UploadProfilePhotoScreen.id,
     );
   }
 }
