@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              ImageManager.loginAndSignupBackgroundImage,
+              ImageManager.BackgroundImage,
               fit: BoxFit.cover,
             ),
           ),

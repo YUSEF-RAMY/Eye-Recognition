@@ -21,7 +21,7 @@ class ResultsScreen extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              ImageManager.loginAndSignupBackgroundImage,
+              ImageManager.BackgroundImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -85,6 +85,8 @@ class ResultsScreen extends StatelessWidget {
                           CustomButton(
                             text: 'Try again',
                             isWhite: false,
+                            isPrimaryTextColor: false,
+                            isTransparent: false,
                             onTap: () {
                               Navigator.pushReplacementNamed(
                                 context,
