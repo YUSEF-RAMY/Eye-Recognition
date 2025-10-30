@@ -3,6 +3,7 @@ import '../resources/color_manager.dart';
 
 class CustomTextField extends StatefulWidget {
   CustomTextField({
+    super.key,
     required this.hintText,
     required this.labelText,
     required this.controller,

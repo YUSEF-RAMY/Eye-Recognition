@@ -1,4 +1,5 @@
 import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dart';
+import 'package:eye_recognition/presentation/screens/profile_screen/profile_screen.dart';
 import 'package:eye_recognition/presentation/screens/results_screen/results_screen.dart';
 import 'package:eye_recognition/presentation/screens/signup_screen/signup_screen.dart';
 import 'package:eye_recognition/presentation/screens/splash_screen/splash_screen.dart';
@@ -28,9 +29,10 @@ class EyeRecognition extends StatelessWidget {
         UploadProfilePhotoScreen.id : (context) => UploadProfilePhotoScreen(),
         SignupScreen.id : (context) => SignupScreen(),
         HomeScreen.id : (context) => HomeScreen(),
+        ProfileScreen.id : (context) => ProfileScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
       },
-      initialRoute: SignupScreen.id,
+      initialRoute: ProfileScreen.id,
     );
   }
 }

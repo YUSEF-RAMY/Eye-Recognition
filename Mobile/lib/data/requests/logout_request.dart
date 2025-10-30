@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:eye_recognition/data/api.dart';
 import 'package:eye_recognition/main.dart';
-import 'package:http/http.dart' as http;
 
 class LogoutRequest {
   Future<String> logoutRequest({required File imageFile}) async {
