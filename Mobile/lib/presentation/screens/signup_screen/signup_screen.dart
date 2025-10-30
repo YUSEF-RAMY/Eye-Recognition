@@ -32,10 +32,7 @@ class SignupScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            child: Image.asset(
-              ImageManager.BackgroundImage,
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset(ImageManager.BackgroundImage, fit: BoxFit.cover),
           ),
           Positioned(
             child: Container(
@@ -78,12 +75,16 @@ class SignupScreen extends StatelessWidget {
                       labelText: 'Password',
                       hintText: 'Entre Password',
                       controller: passwordController,
+                      isSecureText: true,
+                      obscureText: true,
                     ),
                     SizedBox(height: 16),
                     CustomTextField(
                       labelText: 'Confirm password',
-                      hintText: 'Entre Password agian',
+                      hintText: 'Entre Password again',
                       controller: confirmPasswordController,
+                      isSecureText: true,
+                      obscureText: true,
                     ),
                     Spacer(flex: 7),
                     CustomButton(

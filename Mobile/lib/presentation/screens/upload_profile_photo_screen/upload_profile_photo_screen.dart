@@ -64,7 +64,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                             ),
                           ),
                           child: ClipOval(
-                            //cut picture on circle shape
+                            //To cut picture on circle shape
                             child: Image.asset(
                               ImageManager.user,
                               width: 132,

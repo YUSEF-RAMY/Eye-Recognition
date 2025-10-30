@@ -73,6 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'password',
                     hintText: 'Entre Password',
                     controller: passwordController,
+                    isSecureText: true,
+                    obscureText: true,
                   ),
                   Spacer(flex: 7),
                   CustomButton(
