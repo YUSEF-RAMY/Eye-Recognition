@@ -3,6 +3,7 @@ import '../resources/color_manager.dart';
 
 class CustomButton extends StatelessWidget {
   CustomButton({
+    super.key,
     required this.text,
     required this.onTap,
     required this.isWhite,
@@ -22,9 +23,11 @@ class CustomButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: 54,
+        height: 56,
         decoration: BoxDecoration(
-          color: isWhite
+          color: isWhite && isTransparent
+              ? Colors.transparent
+              : isWhite
               ? ColorManager.white
               : isPrimaryTextColor
               ? ColorManager.primaryTextColor
@@ -45,7 +48,7 @@ class CustomButton extends StatelessWidget {
                 ? ColorManager.white
                 : isTransparent && !isWhite || isWhite && !isTransparent
                 ? ColorManager.primary
-                :ColorManager.white,
+                : ColorManager.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

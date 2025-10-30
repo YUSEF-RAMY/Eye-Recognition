@@ -5,7 +5,6 @@ import 'package:eye_recognition/presentation/components/custom_text_field.dart';
 import 'package:eye_recognition/presentation/resources/image_manager.dart';
 import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dart';
 import 'package:eye_recognition/presentation/screens/signup_screen/signup_screen.dart';
-import 'package:eye_recognition/presentation/screens/welcome_screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
 import '../../resources/color_manager.dart';

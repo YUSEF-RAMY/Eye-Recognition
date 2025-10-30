@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import '../../../data/requests/signup_request.dart';
 import '../../../main.dart';
 import '../../components/custom_button.dart';
@@ -10,7 +8,6 @@ import '../../resources/color_manager.dart';
 import '../../resources/image_manager.dart';
 import '../home_screen/home_screen.dart';
 import '../login_screen/login_screen.dart';
-import '../welcome_screen/welcome_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
