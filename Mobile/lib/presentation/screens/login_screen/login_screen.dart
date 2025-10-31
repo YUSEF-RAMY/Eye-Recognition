@@ -4,7 +4,7 @@ import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/components/custom_text_field.dart';
 import 'package:eye_recognition/presentation/resources/image_manager.dart';
 import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dart';
-import 'package:eye_recognition/presentation/screens/signup_screen/signup_screen.dart';
+import 'package:eye_recognition/presentation/screens/upload_profile_photo_screen/upload_profile_photo_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
 import '../../resources/color_manager.dart';
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacementNamed(context, SignupScreen.id);
+                            Navigator.pushReplacementNamed(context, UploadProfilePhotoScreen.id);
                           },
                           child: Text(
                             ' Signup',

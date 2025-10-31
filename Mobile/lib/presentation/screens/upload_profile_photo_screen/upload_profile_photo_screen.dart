@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/image_manager.dart';
+import '../login_screen/login_screen.dart';
 
 class UploadProfilePhotoScreen extends StatefulWidget {
   UploadProfilePhotoScreen({super.key});
@@ -89,7 +90,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                         SizedBox(height: 40.0),
                         GestureDetector(
                           onTap: () async{
-                            await pickImage(ImageSource.camera);
+                            await pickImage(ImageSource.gallery);
                             log(widget.image.path);
                           },
                           child: Container(
@@ -152,6 +153,38 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                               arguments: widget.image,
                             );
                           },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0, bottom: 60.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Already i have an account? ',
+                                style: TextStyle(
+                                  color: ColorManager.secondTextColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    LoginScreen.id,
+                                  );
+                                },
+                                child: Text(
+                                  ' Login',
+                                  style: TextStyle(
+                                    color: ColorManager.primaryTextColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
