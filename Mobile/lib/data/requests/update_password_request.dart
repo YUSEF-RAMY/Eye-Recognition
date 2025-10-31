@@ -1,10 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:eye_recognition/data/api.dart';
 import 'package:eye_recognition/main.dart';
 
 class UpdatePasswordRequest {
-  Future<Map<String,dynamic>> updatePasswordRequest({
+  Future<String> updatePasswordRequest({
     required String currentPassword,
     required String newPassword,
     required String confirmNewPassword,
@@ -20,6 +19,6 @@ class UpdatePasswordRequest {
     );
     log("Success: ${data}");
     EyeRecognition.success = true;
-    return data; //edit this field from api response
+    return data['message']; //edit this field from api response
   }
 }

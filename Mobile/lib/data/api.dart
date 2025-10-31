@@ -61,7 +61,7 @@ class Api {
       } else {
         http.Response response = await http.post(
           Uri.parse(url),
-          body: jsonEncode(body),
+          body: body,
           headers: headers,
         );
         log(response.body);
@@ -90,7 +90,7 @@ class Api {
     try {
       http.Response response = await http.post(
         Uri.parse(url),
-        body: jsonEncode(body),
+        body: body,
         headers: headers,
       );
       log(response.body);
@@ -103,8 +103,8 @@ class Api {
       EyeRecognition.success = false;
       throw Exception(e);
     }
-  }*/
-
+  }
+*/
   Future<dynamic> put({
     required String url,
     required dynamic body,
@@ -118,7 +118,7 @@ class Api {
     try {
       http.Response response = await http.put(
         Uri.parse(url),
-        body: jsonEncode(body),
+        body: body,
         headers: headers,
       );
       log(response.body);

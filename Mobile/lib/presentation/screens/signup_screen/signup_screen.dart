@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../../data/requests/signup_request.dart';
 import '../../../main.dart';
@@ -21,6 +22,8 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Object? object = ModalRoute.of(context)!.settings.arguments;
+    File? image = object == null? null : object as File;
     return Scaffold(
       backgroundColor: ColorManager.backgroundColor,
       body: Stack(
@@ -96,6 +99,7 @@ class SignupScreen extends StatelessWidget {
                         String token = await SignupRequest().signupRequest(
                           userName: userNameController.text,
                           email: emailController.text,
+                          imageFile: image,
                           password: passwordController.text,
                           confirmPassword: confirmPasswordController.text,
                         );

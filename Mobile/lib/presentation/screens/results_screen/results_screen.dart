@@ -42,7 +42,7 @@ class ResultsScreen extends StatelessWidget {
                       bottomLeft: Radius.circular(16),
                     ),
                   ),
-                  child: Image.file(HomeScreen.image, fit: BoxFit.cover),
+                  child: Image.file(HomeScreen().image, fit: BoxFit.cover),
                 ),
                 SizedBox(height: 58),
                 Positioned(

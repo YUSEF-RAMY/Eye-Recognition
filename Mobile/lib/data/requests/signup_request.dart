@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import '../../main.dart';
 import '../api.dart';
 
@@ -5,6 +7,7 @@ class SignupRequest {
   Future<String> signupRequest({
     required String userName,
     required String email,
+    required File? imageFile,
     required String password,
     required String confirmPassword,
   }) async {
@@ -13,6 +16,9 @@ class SignupRequest {
       body: {
         'userName': userName,
         'email': email,
+        'image': imageFile == null
+            ? null
+            : await http.MultipartFile.fromPath('image', imageFile.path),
         'password': password,
         'confirmPassword': confirmPassword,
       },

@@ -1,14 +1,18 @@
+import 'dart:developer';
+import 'dart:io';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/screens/signup_screen/signup_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/image_manager.dart';
+import '../login_screen/login_screen.dart';
 
 class UploadProfilePhotoScreen extends StatefulWidget {
-  const UploadProfilePhotoScreen({super.key});
+  UploadProfilePhotoScreen({super.key});
 
   static String id = 'UploadProfilePhotoScreen';
+  late File image;
 
   @override
   State<UploadProfilePhotoScreen> createState() =>
@@ -16,6 +20,16 @@ class UploadProfilePhotoScreen extends StatefulWidget {
 }
 
 class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        widget.image = File(pickedFile.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +89,10 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                         ),
                         SizedBox(height: 40.0),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async{
+                            await pickImage(ImageSource.gallery);
+                            log(widget.image.path);
+                          },
                           child: Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 20,
@@ -129,7 +146,45 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                           isWhite: false,
                           isTransparent: false,
                           isPrimaryTextColor: false,
-                          onTap: () {}, //upload profile photo request
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              SignupScreen.id,
+                              arguments: widget.image,
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0, bottom: 60.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Already i have an account? ',
+                                style: TextStyle(
+                                  color: ColorManager.secondTextColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    LoginScreen.id,
+                                  );
+                                },
+                                child: Text(
+                                  ' Login',
+                                  style: TextStyle(
+                                    color: ColorManager.primaryTextColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

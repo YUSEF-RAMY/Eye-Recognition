@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   static String id = 'HomeScreen';
-  static late File image;
+  late File image;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
-        HomeScreen.image = File(pickedFile.path);
+        widget.image = File(pickedFile.path);
       });
     }
   }
@@ -77,9 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () async {
                       await pickImage(ImageSource.gallery);
                       log(EyeRecognition.token);
-                      log(HomeScreen.image.path);
+                      log(widget.image.path);
                       String result = await RecognizeRequest().recognizeRequest(
-                        imageFile: HomeScreen.image,
+                        imageFile: widget.image,
                       );
                       if (EyeRecognition.success == true) {
                         Navigator.pushReplacementNamed(context, ResultsScreen.id);
@@ -95,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () async {
                       await pickImage(ImageSource.camera);
                       log(EyeRecognition.token);
-                      log(HomeScreen.image.path);
+                      log(widget.image.path);
                       String result = await RecognizeRequest().recognizeRequest(
-                        imageFile: HomeScreen.image,
+                        imageFile: widget.image,
                       );
                       if (EyeRecognition.success == true) {
                         Navigator.pushReplacementNamed(context, ResultsScreen.id);

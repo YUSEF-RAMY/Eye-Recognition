@@ -1,16 +1,17 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:eye_recognition/data/api.dart';
+import 'package:eye_recognition/data/models/user_model.dart';
 import 'package:eye_recognition/main.dart';
 
-class LogoutRequest {
-  Future<String> logoutRequest() async {
-    Map<String, dynamic> data = await Api().get(
+class GetUserInfoResponse {
+  Future<UserModel> getUserInfoResponse() async {
+    Map<String,dynamic> data = await Api().get(
       url: '${EyeRecognition.baseUrl}/api/show-user-info',
       token: EyeRecognition.token,
     );
-    log("Success: ${data}");
+    UserModel user = UserModel.fromjson(data);
+    log("Success: ${user}");
     EyeRecognition.success = true;
-    return data['result']; //edit this field from api response
+    return user; //edit this field from api response
   }
 }
