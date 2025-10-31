@@ -28,9 +28,12 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json([
-                'message' => 'The old password is incorrect.',
-            ], 422);
+            return response()->json(
+                [
+                    'message' => 'The old password is incorrect.',
+                ],
+                422,
+            );
         }
 
         $user->update([
@@ -41,21 +44,21 @@ class ProfileController extends Controller
             'message' => 'Your password has been changed successfully.',
         ]);
     }
-    
+
     public function updateProfileImage(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|max:4096',
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|max:4096',
+        ]);
 
-    $user = $request->user();
-    $path = $request->file('image')->store('users', 'public');
-    $url = asset('storage/' . $path);
-    $user->update(['image_path' => $url]);
+        $user = $request->user();
+        $path = $request->file('image')->store('users', 'public');
+        $url = asset('storage/' . $path);
+        $user->update(['image_path' => $url]);
 
-    return response()->json([
-        'message' => 'Image updated successfully.',
-        'image' => $url,
-    ]);
-}
+        return response()->json([
+            'message' => 'Image updated successfully.',
+            'image' => $url,
+        ]);
+    }
 }
