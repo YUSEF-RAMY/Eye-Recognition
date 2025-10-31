@@ -8,6 +8,22 @@
 	"item": [
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"pm.environment.set(\"token\", response.token);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -25,12 +41,12 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "",
+							"value": "sudo@sudo.com",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "",
+							"value": "sudo$1234$",
 							"type": "text"
 						}
 					]
@@ -287,40 +303,6 @@
 			"response": []
 		},
 		{
-			"name": "Logout",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{url}}/api/logout",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"logout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Update_Profile_Image",
 			"request": {
 				"auth": {
@@ -359,6 +341,40 @@
 					"path": [
 						"api",
 						"update-profile-image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"logout"
 					]
 				}
 			},
