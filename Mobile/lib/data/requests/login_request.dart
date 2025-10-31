@@ -9,6 +9,7 @@ class LoginRequest {
     Map<String, dynamic> data = await Api().post(
       url: '${EyeRecognition.baseUrl}/api/login', //complete this url
       body: {'email': email, 'password': password},
+      token: null
     );
     print(data);
     String oldToken = data['token'];

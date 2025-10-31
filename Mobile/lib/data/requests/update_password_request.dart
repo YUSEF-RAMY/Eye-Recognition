@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:eye_recognition/data/api.dart';
 import 'package:eye_recognition/main.dart';
 
@@ -20,6 +19,6 @@ class UpdatePasswordRequest {
     );
     log("Success: ${data}");
     EyeRecognition.success = true;
-    return data['result']; //edit this field from api response
+    return data['message']; //edit this field from api response
   }
 }

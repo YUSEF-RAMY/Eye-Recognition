@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:eye_recognition/data/requests/update_password_request.dart';
+import 'package:eye_recognition/main.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/components/custom_text_field.dart';
 import 'package:eye_recognition/presentation/resources/color_manager.dart';
+import 'package:eye_recognition/presentation/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
@@ -68,6 +70,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 controller: currentPasswordController,
                 obscureText: true,
                 isSecureText: true,
+                isWhite: true,
               ),
               SizedBox(height: 16),
               CustomTextField(
@@ -75,6 +78,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 controller: newPasswordController,
                 obscureText: true,
                 isSecureText: true,
+                isWhite: true,
               ),
               SizedBox(height: 16),
               CustomTextField(
@@ -82,6 +86,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 controller: confirmNewPasswordController,
                 obscureText: true,
                 isSecureText: true,
+                isWhite: true,
               ),
               Spacer(flex: 2),
               CustomButton(
@@ -96,6 +101,9 @@ class ChangePasswordScreen extends StatelessWidget {
                         newPassword: newPasswordController.text,
                         confirmNewPassword: confirmNewPasswordController.text,
                       );
+                  if(EyeRecognition.success==true){
+                    Navigator.pushReplacementNamed(context, LoginScreen.id);
+                  }
                 },
                 isWhite: true,
                 isPrimaryTextColor: false,

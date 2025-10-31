@@ -1,13 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:eye_recognition/data/requests/update_profile_image_request.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/screens/signup_screen/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../main.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/image_manager.dart';
 
@@ -93,7 +89,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                         SizedBox(height: 40.0),
                         GestureDetector(
                           onTap: () async{
-                            await pickImage(ImageSource.gallery);
+                            await pickImage(ImageSource.camera);
                             log(widget.image.path);
                           },
                           child: Container(
@@ -149,18 +145,13 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                           isWhite: false,
                           isTransparent: false,
                           isPrimaryTextColor: false,
-                          onTap: () async {
-                            String result = await UpdateProfileImageRequest().updateProfileImageRequest(
-                              imageFile: widget.image,
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              SignupScreen.id,
+                              arguments: widget.image,
                             );
-                            log(result);
-                            if (EyeRecognition.success == true) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                SignupScreen.id,
-                              );                            }
-
-                          }, //upload profile photo request
+                          },
                         ),
                       ],
                     ),

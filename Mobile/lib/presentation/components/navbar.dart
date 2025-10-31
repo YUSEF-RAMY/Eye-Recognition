@@ -4,7 +4,6 @@ import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dar
 import 'package:eye_recognition/presentation/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../resources/color_manager.dart';
 import 'navbar_icon.dart';
 
 class Navbar extends StatelessWidget {

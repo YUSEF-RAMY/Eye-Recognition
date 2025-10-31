@@ -34,7 +34,7 @@ class EyeRecognition extends StatelessWidget {
         ChangePasswordScreen.id : (context) => ChangePasswordScreen(),
         ResultsScreen.id : (context) => ResultsScreen(),
       },
-      initialRoute: ProfileScreen.id,
+      initialRoute: SplashScreen.id,
     );
   }
 }
