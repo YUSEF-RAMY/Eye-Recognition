@@ -1,3 +1,4 @@
+import 'package:eye_recognition/data/responses/get_user_info_response.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/components/navbar.dart';
 import 'package:eye_recognition/presentation/resources/color_manager.dart';
@@ -5,11 +6,20 @@ import 'package:eye_recognition/presentation/screens/change_password_screen/chan
 import 'package:flutter/material.dart';
 import '../../resources/image_manager.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   static String id = 'ProfileScreen';
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() async{
+    await GetUserInfoResponse().getUserInfoResponse();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

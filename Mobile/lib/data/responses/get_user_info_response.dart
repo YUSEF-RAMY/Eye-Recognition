@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:eye_recognition/data/api.dart';
 import 'package:eye_recognition/main.dart';
 
-class LogoutRequest {
-  Future<String> logoutRequest() async {
+class GetUserInfoResponse {
+  Future<String> getUserInfoResponse() async {
     Map<String, dynamic> data = await Api().get(
       url: '${EyeRecognition.baseUrl}/api/show-user-info',
       token: EyeRecognition.token,

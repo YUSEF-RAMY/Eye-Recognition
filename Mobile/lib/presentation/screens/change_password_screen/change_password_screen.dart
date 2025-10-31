@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:eye_recognition/data/requests/update_password_request.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/components/custom_text_field.dart';
 import 'package:eye_recognition/presentation/resources/color_manager.dart';
@@ -41,7 +44,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 42,),
+              SizedBox(height: 42),
               Text(
                 'Change password',
                 style: TextStyle(
@@ -59,7 +62,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              Spacer(flex: 1,),
+              Spacer(flex: 1),
               CustomTextField(
                 hintText: 'Current password',
                 controller: currentPasswordController,
@@ -80,15 +83,25 @@ class ChangePasswordScreen extends StatelessWidget {
                 obscureText: true,
                 isSecureText: true,
               ),
-              Spacer(flex: 2,),
+              Spacer(flex: 2),
               CustomButton(
                 text: 'save',
-                onTap: () {},
+                onTap: () async {
+                  log(
+                    'currentPassword: ${currentPasswordController.text} \n newPassword: ${newPasswordController.text} \n confirmNewPassword: ${confirmNewPasswordController.text}',
+                  );
+                  String result = await UpdatePasswordRequest()
+                      .updatePasswordRequest(
+                        currentPassword: currentPasswordController.text,
+                        newPassword: newPasswordController.text,
+                        confirmNewPassword: confirmNewPasswordController.text,
+                      );
+                },
                 isWhite: true,
                 isPrimaryTextColor: false,
                 isTransparent: true,
               ),
-              Spacer(flex: 2,),
+              Spacer(flex: 2),
             ],
           ),
         ),
