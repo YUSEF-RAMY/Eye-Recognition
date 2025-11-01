@@ -56,7 +56,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 60.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -126,6 +126,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                         ),
                       ],
                     ),
+                    Spacer(),
                     Column(
                       children: [
                         CustomButton(
@@ -155,7 +156,7 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
                           },
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 20.0, bottom: 60.0),
+                          padding: EdgeInsets.only(top: 20.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

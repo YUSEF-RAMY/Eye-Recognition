@@ -28,7 +28,7 @@ class RegisterButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.5,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSignup ? ColorManager.white : Colors.transparent,
+          color: isSignup ? ColorManager.white : ColorManager.primary,
           borderRadius: borderRadiusRight
               ? BorderRadius.only(topRight: Radius.circular(50))
               : BorderRadius.only(topLeft: Radius.circular(50)),
