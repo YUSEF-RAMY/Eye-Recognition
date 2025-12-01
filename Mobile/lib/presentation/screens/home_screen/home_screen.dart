@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:eye_recognition/data/requests/recognize_request.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
+import 'package:eye_recognition/presentation/screens/camera_screen/camera_screen.dart';
 import 'package:eye_recognition/presentation/screens/results_screen/results_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
+    final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         widget.image = File(pickedFile.path);
@@ -82,7 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         imageFile: widget.image,
                       );
                       if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(context, ResultsScreen.id);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          ResultsScreen.id,
+                        );
                       }
                     },
                   ),
@@ -93,19 +97,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     isTransparent: false,
                     isPrimaryTextColor: true,
                     onTap: () async {
-                      await pickImage(ImageSource.camera);
-                      log(EyeRecognition.token);
+                      final result = await Navigator.pushNamed(
+                        context,
+                        CameraWithOverlay.id,
+                      );
+                      final File? capturedEyeFile = result as File?;
+
+
+                      if (capturedEyeFile == null) {
+                        log("No image returned");
+                        return;
+                      }
+
+                      // خزّن الصورة في widget.image
+                      setState(() {
+                        widget.image = capturedEyeFile;
+                      });
+
                       log(widget.image.path);
-                      String result = await RecognizeRequest().recognizeRequest(
+
+                      // ابعت الصورة للسيرفر/الـ backend
+                      String message = await RecognizeRequest().recognizeRequest(
                         imageFile: widget.image,
                       );
+
                       if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(context, ResultsScreen.id);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          ResultsScreen.id,
+                        );
                       }
                     },
                   ),
                   Spacer(),
-                  Navbar(isHome: true,isProfile: false,),
+                  Navbar(isHome: true, isProfile: false),
                 ],
               ),
             ),
@@ -115,4 +140,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

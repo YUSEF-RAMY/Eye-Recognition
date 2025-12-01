@@ -40,7 +40,7 @@ class SignupScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height:
-                    MediaQuery.of(context).size.height * 0.68 +
+                    MediaQuery.of(context).size.height * 0.72 +
                     MediaQuery.of(context).viewInsets.bottom,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -72,13 +72,13 @@ class SignupScreen extends StatelessWidget {
                         hintText: 'Entre username',
                         controller: userNameController,
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 12),
                       CustomTextField(
                         labelText: 'Email',
                         hintText: 'Entre email',
                         controller: emailController,
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 12),
                       CustomTextField(
                         labelText: 'Password',
                         hintText: 'Entre Password',
@@ -86,7 +86,7 @@ class SignupScreen extends StatelessWidget {
                         isSecureText: true,
                         obscureText: true,
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: 12),
                       CustomTextField(
                         labelText: 'Confirm password',
                         hintText: 'Entre Password again',
