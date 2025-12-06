@@ -17,7 +17,7 @@ class UserResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'image' => $this->image_path ?? asset('storage/people/user-1.jpeg'),
+            'image' => $this->image_path,
             'created_at' => $this->created_at,
         ];
     }

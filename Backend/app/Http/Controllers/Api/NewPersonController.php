@@ -19,7 +19,8 @@ class NewPersonController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'image' => 'required|image|max:4096',
+            'images' => 'required|array|min:20|max:20',
+            'images.*' => 'required|image|max:4096',
         ]);
 
         $path = $request->file('image')->store('people', 'public');
