@@ -1,0 +1,164 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: white;
+  color: #333;
+  min-height: 100vh;
+}
+
+.eye-scan-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: rgb(5, 77, 186);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.eye-scan-title {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  font-size: 2.8em;
+  font-weight: 300;
+}
+
+.eye-scan-upload-section {
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.eye-scan-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.eye-scan-button {
+  background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.eye-scan-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(9, 132, 227, 0.4);
+}
+
+.eye-scan-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.eye-scan-camera-section {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.eye-scan-video-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 25px;
+}
+
+.eye-scan-video {
+  width: 400px; /* أو 100% */
+  height: auto; /* يمكن تعيين ارتفاع ثابت لو أردت */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  background-color: black;
+}
+
+.eye-scan-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 50px;
+  border: 4px solid #e17055;
+  pointer-events: none;
+  background-color: rgba(225, 112, 85, 0.1);
+  border-radius: 4px;
+}
+
+.eye-scan-eye-selector {
+  margin-bottom: 25px;
+}
+
+.eye-scan-eye-selector select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s;
+}
+
+.eye-scan-eye-selector select:focus {
+  border-color: #0984e3;
+  outline: none;
+}
+
+.eye-scan-image-display {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.eye-scan-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.eye-scan-cropped-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.eye-scan-cropped-image {
+  width: 150px; /* تصغير العرض */
+  height: auto; /* للحفاظ على النسبة */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.eye-scan-label {
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 20px;
+  color: #0984e3;
+}
+
+@media (max-width: 600px) {
+  .eye-scan-container {
+    padding: 25px;
+  }
+  .eye-scan-title {
+    font-size: 2.2em;
+  }
+  .eye-scan-button-group {
+    flex-direction: column;
+  }
+  .eye-scan-button {
+    width: 100%;
+  }
+  .eye-scan-overlay {
+    width: 120px;
+    height: 40px;
+  }
+}

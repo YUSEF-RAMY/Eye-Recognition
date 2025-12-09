@@ -1,0 +1,255 @@
+/* Login.css*/
+.login-container {
+  display: grid;
+  grid-template-columns: 1.6fr 2.2fr; /* زيادة الفرق بين الشمال واليمين */
+  height: 100vh;
+  background: #fff;
+  gap: 150px; /* مسافة إضافية بين الجزئين */
+  margin-bottom: 100px;
+  position: relative;
+}
+
+/* Left Side */
+.login-left {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.formm-wrapper {
+  width: 75%;
+  max-width: 380px;
+}
+
+.home-emoji {
+  font-size: 40px;
+}
+
+.login-title {
+  font-size: 32px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.login-subtitle {
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 13px 42px 13px 16px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+/* Options */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.login-options a {
+  color: #6b6b6b;
+  text-decoration: none;
+}
+
+/* Login Button */
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  margin-left: 25px;
+  border: none;
+  border-radius: 30px;
+  background: #0a37ff;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.signup-btn{
+    width: 100%;
+  padding: 10px;
+  margin-left: 25px;
+  border: none;
+  border-radius: 30px;
+  background: rgb(127, 136, 163);
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Smooth animation */
+.login-left,
+.login-right {
+  transition: transform 0.7s ease;
+}
+
+/* Default positions */
+.login-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.login-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Animation عند الضغط على Sign Up */
+.login-container.sign-up-active .login-left {
+  transform: translateX(750px); /* الفورم يتحرك يمين */
+ 
+}
+
+.login-container.sign-up-active .login-right {
+  transform: translateX(-750px); /* الصورة تتحرك شمال */
+ 
+}
+.password-toggle {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+}
+
+/* Buttons */
+.signup-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 30px;
+  border: none;
+  background: #9d9d9d;
+  cursor: pointer;
+  font-size: 16px;
+}
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 10px 0 20px;
+  color: gray;
+}
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+.image-upload-box {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.preview-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.placeholder {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 2px dashed #aaa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  margin: 0 auto 15px;
+}
+
+.upload-input {
+  margin: 10px auto;
+  display: block;
+}
+.upload-btn {
+  width: 100%;
+  background: #f3f3f3;
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 16px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 30px;
+}
+
+.upload-btn:hover {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
+.upload-icon {
+  font-size: 20px;
+  color: #444;
+}
+
+
+/* Social Icons */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.social-icon {
+  font-size: 32px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Right Side */
+.login-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px;
+}
+
+.login-image {
+  width: 100%;
+  height: 100%; /* بدل 95% عشان الصورة أطول */
+  margin-left: 100px;
+  object-fit: cover;
+  border-radius: 35px;
+}
+/* Error messages */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: -12px;
+  margin-bottom: 12px;
+}
