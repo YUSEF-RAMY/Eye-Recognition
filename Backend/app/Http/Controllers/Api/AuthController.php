@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('mobile')->plainTextToken;
 
-        return (new UserResource($user))->json()->additional(
+        return (new UserResource($user))->additional(
             [
                 'token' => $token,
                 'message' => 'You Have Been Registered Successfully',
