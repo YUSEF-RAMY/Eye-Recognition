@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
               width: double.infinity,
               height:
-                  MediaQuery.of(context).size.height * 0.68 +
+                  MediaQuery.of(context).size.height * 0.72 +
                   MediaQuery.of(context).viewInsets.bottom,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
