@@ -1,0 +1,16 @@
+import 'dart:developer';
+import 'package:eye_recognition/data/api.dart';
+import 'package:eye_recognition/main.dart';
+
+class LogoutRequest {
+  Future<String> logoutRequest() async {
+    Map<String, dynamic> data = await Api().post(
+      url: '${EyeRecognition.baseUrl}/api/logout',
+      body: {},
+      token: EyeRecognition.token,
+    );
+    log("Success: ${data}");
+    EyeRecognition.success = true;
+    return data['message']; //edit this field from api response
+  }
+}
