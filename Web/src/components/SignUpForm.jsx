@@ -57,14 +57,39 @@ function SignUpForm({ setIsSignUp }) {
   };
 
   // -------- Final Submit ----------
-  const handleSignUp = () => {
-    console.log("Account Created:", {
-      fullName,
-      email,
-      password,
-      selectedImage: selectedImage || "No image uploaded",
-    });
-     navigate("/home");
+  const handleSignUp = async () => {
+    const formData = new FormData();
+    formData.append("name", fullName);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("password_confirmation", password);
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+
+    try{
+      const response = await fetch("https://katydid-champion-mutually.ngrok-free.app/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log("Success: registration completed");
+
+      if (response.ok) {
+      console.log("User Registered:", data);
+      navigate("/home"); // بعد النجاح
+    } else {
+      console.log("Registration Error:", data);
+      setErrors({ api: data.error || "Something went wrong" });
+    }
+    }catch(error){
+      console.error("Error:", error);
+    }
+    navigate("/home");
   };
 
   return (
