@@ -46,7 +46,6 @@ function LoginForm({ setIsSignUp }) {
       data = null;
     }
 
-    console.log("Parsed response:", data);
 
     if (!response.ok) {
       setErrors({

@@ -17,6 +17,33 @@ function Home() {
     backgroundSize: "cover",
   };
 
+  const handleLogout = async ()=>
+  {
+    try{
+      const response = await fetch("https://katydid-champion-mutually.ngrok-free.app/api/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if(!response.ok) {
+        const errData = await response.json();
+        console.error("Logout failed:", errData.error || "Unknown error");
+        return;
+      }
+
+      // Remove token from localStorage
+      localStorage.removeItem("token");
+
+      // Redirect to login page
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  }
+
   return (
     <div className="home-page" dir="ltr">
       {/* HEADER */}
@@ -30,7 +57,7 @@ function Home() {
           <div className={`nav-links ${navOpen ? "active" : ""}`} id="navLinks">
             <Link to="/eye-scan">Recognition</Link> 
             <Link to="/sett">Settings</Link> 
-            <a className="nav-btn" href="#">
+            <a className="nav-btn" onClick={handleLogout}>
               Log out
             </a>
           </div>
