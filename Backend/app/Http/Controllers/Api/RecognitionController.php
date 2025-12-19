@@ -66,7 +66,7 @@ class RecognitionController extends Controller
         } catch (\Exception $e) {
             return response()->json(
                 [
-                    'status' => 'AI Server Was Killed',
+                    'status' => 'The AI Server Ss Locked.',
                     'message' => $e->getMessage(),
                 ],
                 500,

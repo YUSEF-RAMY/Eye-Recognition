@@ -1,14 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\DataSet;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $images = DataSet::orderBy('created_at' , 'desc')->paginate(15);
+    return view('dashboard' , compact('images'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
