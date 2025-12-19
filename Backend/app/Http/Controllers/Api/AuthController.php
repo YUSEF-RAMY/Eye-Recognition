@@ -55,7 +55,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'image_path' => $url,
+            'image_path' => $path,
         ]);
 
         $token = $user->createToken('mobile')->plainTextToken;
