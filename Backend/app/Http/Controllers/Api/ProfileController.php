@@ -14,7 +14,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         return response()->json([
-            'user' => new UserResource($user),
+            'data' => new UserResource($user),
         ]);
     }
 
@@ -54,7 +54,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $path = $request->file('image')->store('users', 'public');
         $url = asset('storage/' . $path);
-        $user->update(['image_path' => $url]);
+        $user->update(['image_path' => $path]);
 
         return response()->json([
             'message' => 'Image updated successfully.',

@@ -52,6 +52,7 @@ class RecognitionController extends Controller
                 return response()->json([
                     'name' => $name,
                     'best_score' => $score,
+                    'image' => asset('storage/'. $path),
                 ]);
             }
 
