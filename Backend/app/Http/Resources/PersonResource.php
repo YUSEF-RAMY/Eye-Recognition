@@ -18,7 +18,7 @@ class PersonResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image_url' => asset('storage/' . $this->image_path),
-            'created_at' => $this->created_at->format('Y-m-d H:i'),
+            'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
 }

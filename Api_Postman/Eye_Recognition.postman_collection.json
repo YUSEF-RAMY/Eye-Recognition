@@ -81,22 +81,12 @@
 				}
 			],
 			"request": {
-				"auth": {
-					"type": "noauth"
-				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
 						"value": "application/json",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "Content-Type",
-						"value": "multipart/form-data",
-						"type": "text",
-						"disabled": true
+						"type": "text"
 					}
 				],
 				"body": {
@@ -113,11 +103,6 @@
 							"type": "text"
 						},
 						{
-							"key": "image",
-							"type": "file",
-							"src": []
-						},
-						{
 							"key": "password",
 							"value": "",
 							"type": "text"
@@ -126,6 +111,11 @@
 							"key": "password_confirmation",
 							"value": "",
 							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": []
 						}
 					]
 				},
@@ -215,55 +205,6 @@
 					"path": [
 						"api",
 						"recognize"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add New Person",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "name",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "image",
-							"type": "file",
-							"src": []
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url}}/api/add-person",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"add-person"
 					]
 				}
 			},
