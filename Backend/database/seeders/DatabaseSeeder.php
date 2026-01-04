@@ -18,12 +18,12 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => env('SEED_NAME_ADMIN'),
             'email' => env('SEED_EMAIL_ADMIN'),
-            'password' => bcrypt(env('SEED_PASSWORD_ADMIN')),
+            'password' => bcrypt(env('SEED_PASSWD_ADMIN')),
         ]);
         User::factory()->create([
             'name' => env('SEED_NAME_AMR'),
             'email' => env('SEED_EMAIL_AMR'),
-            'password' => bcrypt(env('SEED_PASSWORD_AMR')),
+            'password' => bcrypt(env('SEED_PASSWD_AMR')),
         ]);
     }
 }
