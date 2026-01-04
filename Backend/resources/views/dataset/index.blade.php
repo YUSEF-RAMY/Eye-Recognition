@@ -4,11 +4,12 @@
 
     <div class="video-wrapper">
         <video id="video" autoplay playsinline></video>
-        <div class="roi"></div> <!-- مستطيل العين -->
+        <div class="roi">
+            <!-- نقطتين للتوجيه -->
+        <div class="point" id="point1"></div>
+        <div class="point" id="point2"></div>
+        </div> <!-- مستطيل العين -->
 
-        <!-- نقطتين للتوجيه -->
-    <div class="point" id="point1"></div>
-    <div class="point" id="point2"></div>
     </div>
 
     <br>
@@ -48,11 +49,14 @@ video {
     object-fit: cover;
     display: block;
     transform: scaleX(-1);
+
+    /* object-fit: contain; */
+    background: black;
 }
 
 .roi {
     position: absolute;
-    width: 145px;  
+    width: 145px;
     height: 40px;
     border: 3px solid red;
     top: 50%;
@@ -65,22 +69,24 @@ video {
 /* النقطتين داخل ROI */
 .point {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: rgb(100, 100, 100);
+    width: 18px;
+    height: 9.5px;
+    background-color: rgba(100, 236, 95, 0.25);
     border-radius: 50%;
-    border: 2px solid rgb(189, 189, 189);
+    border: 1px solid rgba(136, 255, 81, 0.6);
 }
 
 /* ضبط مكان النقطتين داخل ROI */
 #point1 {
-    top: 49%;       /* نقطة علي حافة العين أو حدها العلوي */
-    left: 38.4%;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
 }
 
 #point2 {
-    top: 49%;       /* نفس المستوى تقريبًا */
-    right: 38.4%;     /* جهة تانية */
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
 }
 
 .capture-btn {
@@ -115,40 +121,74 @@ navigator.mediaDevices.getUserMedia({
 
 // التقاط صورتين: كاملة + ROI
 function capture() {
+    const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    // full image
-    canvas.width = video.videoWidth;
+    /* ======================
+       1️⃣ الصورة الكاملة
+    ====================== */
+
+    canvas.width  = video.videoWidth;
     canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0);
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
     const fullImage = canvas.toDataURL('image/png');
 
-    // ROI
+    /* ======================
+       2️⃣ صورة العين (ROI)
+    ====================== */
+
     const roi = document.querySelector('.roi');
-    const videoRect = video.getBoundingClientRect();
-    const roiRect = roi.getBoundingClientRect();
 
-    const scaleX = video.videoWidth / videoRect.width;
-    const scaleY = video.videoHeight / videoRect.height;
+const videoRect = video.getBoundingClientRect();
+const roiRect   = roi.getBoundingClientRect();
 
-    const x = (roiRect.left - videoRect.left) * scaleX;
-    const y = (roiRect.top - videoRect.top) * scaleY;
-    const w = roiRect.width * scaleX;
-    const h = roiRect.height * scaleY;
+const videoAR = video.videoWidth / video.videoHeight;
+const viewAR  = videoRect.width / videoRect.height;
 
-    const roiCanvas = document.createElement('canvas');
-    roiCanvas.width = w;
-    roiCanvas.height = h;
-    roiCanvas.getContext('2d').drawImage(video, x, y, w, h, 0, 0, w, h);
+let sx = 0, sy = 0;
+let sWidth = video.videoWidth;
+let sHeight = video.videoHeight;
 
-    const eyeImage = roiCanvas.toDataURL('image/png');
+// حساب crop اللي عمله object-fit: cover
+if (videoAR > viewAR) {
+    sWidth = video.videoHeight * viewAR;
+    sx = (video.videoWidth - sWidth) / 2;
+} else {
+    sHeight = video.videoWidth / viewAR;
+    sy = (video.videoHeight - sHeight) / 2;
+}
+
+const scaleX = sWidth  / videoRect.width;
+const scaleY = sHeight / videoRect.height;
+
+const x = sx + (roiRect.left - videoRect.left) * scaleX;
+const y = sy + (roiRect.top  - videoRect.top)  * scaleY;
+const w = roiRect.width  * scaleX;
+const h = roiRect.height * scaleY;
+
+const roiCanvas = document.createElement('canvas');
+roiCanvas.width  = Math.round(w);
+roiCanvas.height = Math.round(h);
+
+roiCanvas
+    .getContext('2d')
+    .drawImage(video, x, y, w, h, 0, 0, roiCanvas.width, roiCanvas.height);
+
+const eyeImage = roiCanvas.toDataURL('image/png');
+
+    /* ======================
+       3️⃣ إرسال للـ Backend
+    ====================== */
 
     sendImages(fullImage, eyeImage);
 }
 
+
 function sendImages(full, eye) {
-    fetch('/dataset/capture', {
+    fetch('https://katydid-champion-mutually.ngrok-free.app/api/dataset/capture', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

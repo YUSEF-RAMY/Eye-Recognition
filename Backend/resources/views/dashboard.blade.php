@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="mx-auto font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ 'Dashboard' }}
+            {{-- {{ 'Dashboard' }} --}}
         </h2>
         <a href="{{ route('dataset.capture') }}" class="border bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">
             Capture Data Set

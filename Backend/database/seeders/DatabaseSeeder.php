@@ -28,17 +28,17 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => env('SEED_NAME_MARYAM'),
             'email' => env('SEED_EMAIL_MARYAM'),
-            'password' => bcrypt(env('SEED_PASSWORD_MARYAM')),
+            'password' => bcrypt(env('SEED_PASSWD_MARYAM')),
         ]);
         User::factory()->create([
             'name' => env('SEED_NAME_HEBA'),
             'email' => env('SEED_EMAIL_HEBA'),
-            'password' => bcrypt(env('SEED_PASSWORD_HEBA')),
+            'password' => bcrypt(env('SEED_PASSWD_HEBA')),
         ]);
         User::factory()->create([
             'name' => env('SEED_NAME_SAMER'),
             'email' => env('SEED_EMAIL_SAMER'),
-            'password' => bcrypt(env('SEED_PASSWORD_SAMER')),
+            'password' => bcrypt(env('SEED_PASSWD_SAMER')),
         ]);
     }
 }
