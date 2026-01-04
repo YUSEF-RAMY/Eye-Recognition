@@ -25,5 +25,20 @@ class DatabaseSeeder extends Seeder
             'email' => env('SEED_EMAIL_AMR'),
             'password' => bcrypt(env('SEED_PASSWD_AMR')),
         ]);
+        User::factory()->create([
+            'name' => env('SEED_NAME_MARYAM'),
+            'email' => env('SEED_EMAIL_MARYAM'),
+            'password' => bcrypt(env('SEED_PASSWORD_MARYAM')),
+        ]);
+        User::factory()->create([
+            'name' => env('SEED_NAME_HEBA'),
+            'email' => env('SEED_EMAIL_HEBA'),
+            'password' => bcrypt(env('SEED_PASSWORD_HEBA')),
+        ]);
+        User::factory()->create([
+            'name' => env('SEED_NAME_SAMER'),
+            'email' => env('SEED_EMAIL_SAMER'),
+            'password' => bcrypt(env('SEED_PASSWORD_SAMER')),
+        ]);
     }
 }

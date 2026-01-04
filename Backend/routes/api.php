@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\NewPersonController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RecognitionController;
+use App\Http\Controllers\DataSetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update-password', [ProfileController::class, 'updatePassword']);
     Route::post('/update-profile-image', [ProfileController::class, 'updateProfileImage']);
 });
+
+Route::post('/dataset/capture', [DataSetController::class, 'store']);
 
 Route::get('/test', function () {
     return response()->json(['status' => 'ok']);
