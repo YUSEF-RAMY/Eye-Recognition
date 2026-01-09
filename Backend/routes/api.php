@@ -33,9 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/show-user-info', [ProfileController::class, 'show']);
     Route::post('/update-password', [ProfileController::class, 'updatePassword']);
     Route::post('/update-profile-image', [ProfileController::class, 'updateProfileImage']);
+    Route::post('/dataset/capture', [DataSetController::class, 'store']);
 });
 
-Route::post('/dataset/capture', [DataSetController::class, 'store']);
 
 Route::get('/test', function () {
     return response()->json(['status' => 'ok']);

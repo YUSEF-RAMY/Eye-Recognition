@@ -5,64 +5,63 @@ namespace App\Http\Controllers;
 use App\Models\DataSet;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DataSetController extends Controller
 {
     public function index()
     {
-        return view('dataset.index');
+        $userId = Auth::id();
+    $userFolder = "eye-dataset/users/user_{$userId}/eye"; // سنعد ملفات الوجوه كمثال
+    
+    // جلب عدد الملفات الموجودة فعلياً في المجلد
+    $files = Storage::disk('public')->files($userFolder);
+    $initialCount = count($files);
+
+    return view('dataset.index', compact('initialCount'));
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'full_image' => 'required|string',
-            'eye_image'  => 'required|string',
-        ]);
-
-        // حفظ الصور
-        $fullPath = $this->saveBase64($request->full_image,'full_image');
-
-        $eyeData = $this->saveBase64($request->eye_image,'eye_image',true);
-
-        // تسجيل في DB
-        DataSet::create([
-            'full_image_path' => $fullPath,
-            'eye_image_path'  => $eyeData['path'],
-            'roi_width'       => $eyeData['width'],
-            'roi_height'      => $eyeData['height'],
-        ]);
-
-        return response()->json([
-            'status' => 'success'
-        ]);
-    }
-
-    private function saveBase64($base64, $folder, $returnSize = false)
-    {
-        preg_match('/^data:image\/(\w+);base64,/', $base64, $type);
-        $base64 = substr($base64, strpos($base64, ',') + 1);
-
-        $image = base64_decode($base64);
-        $ext = $type[1] ?? 'png';
-
-        $fileName = $folder.'_'.uniqid().'.'.$ext;
-        $path = "eye-dataset/{$folder}/".$fileName;
-
-        Storage::disk('public')->put($path, $image);
-
-        if ($returnSize) {
-            [$w, $h] = getimagesizefromstring($image);
-
-            return [
-                'path'   => 'storage/'.$path,
-                'width'  => $w,
-                'height' => $h
-            ];
-        }
-
-        return 'storage/'.$path;
-    }
+{
+    $userId = Auth::id(); 
     
+    $faceData = $request->input('face_image');
+    $eyeData = $request->input('eye_image');
+
+    if (!$faceData || !$eyeData) {
+        return response()->json(['error' => 'Images missing'], 400);
+    }
+
+    // استخدام الدالة المحسنة لحفظ الصور في مسار واضح
+    $facePath = $this->saveBase64($faceData, $userId, 'face');
+    $eyePath = $this->saveBase64($eyeData, $userId, 'eye');
+
+    return response()->json([
+        'message' => 'تم حفظ الصور بنجاح في مجلد المستخدم رقم ' . $userId,
+        'face_path' => $facePath,
+        'eye_path' => $eyePath
+    ]);
+}
+
+    private function saveBase64($base64, $userId, $type)
+{
+    // استخراج الصيغة (png, jpg...الخ)
+    preg_match('/^data:image\/(\w+);base64,/', $base64, $matches);
+    $ext = $matches[1] ?? 'png';
+    
+    // تنظيف كود الصورة
+    $image = substr($base64, strpos($base64, ',') + 1);
+    $image = base64_decode($image);
+
+    // المسار المنظم: eye-dataset/users/user_1/face/image_name.png
+    $fileName = $type . '_' . uniqid() . '.' . $ext;
+    $path = "eye-dataset/users/user_{$userId}/{$type}/{$fileName}";
+
+    // الحفظ في التخزين العام (public disk)
+    Storage::disk('public')->put($path, $image);
+
+    return 'storage/' . $path;
+}
 }

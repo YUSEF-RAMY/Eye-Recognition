@@ -16,7 +16,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('dataset', [DataSetController::class , 'index'])->name('dataset.capture');
+Route::middleware(['auth'])->group(function () {
+    // عرض الصفحة
+    Route::get('/dataset', [DataSetController::class, 'index'])->name('capture.index');
+    
+    // استقبال الصور وحفظها
+    Route::post('/dataset/capture', [DataSetController::class, 'store'])->name('capture.store');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
