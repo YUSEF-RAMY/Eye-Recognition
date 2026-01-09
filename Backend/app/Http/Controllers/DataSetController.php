@@ -45,21 +45,28 @@ class DataSetController extends Controller
     ]);
 }
 
-    private function saveBase64($base64, $userId, $type)
+   private function saveBase64($base64, $userId, $type)
 {
-    // استخراج الصيغة (png, jpg...الخ)
+    // 1. استخراج الصيغة
     preg_match('/^data:image\/(\w+);base64,/', $base64, $matches);
     $ext = $matches[1] ?? 'png';
     
-    // تنظيف كود الصورة
+    // 2. تنظيف كود الصورة
     $image = substr($base64, strpos($base64, ',') + 1);
     $image = base64_decode($image);
 
-    // المسار المنظم: eye-dataset/users/user_1/face/image_name.png
-    $fileName = $type . '_' . uniqid() . '.' . $ext;
-    $path = "eye-dataset/users/user_{$userId}/{$type}/{$fileName}";
+    // 3. تحديد المسار وتأكيده
+    $userDirectory = "eye-dataset/users/user_{$userId}/{$type}";
+    
+    // التأكد من وجود المجلد، وإذا لم يوجد يتم إنشاؤه بصلاحيات كاملة
+    if (!Storage::disk('public')->exists($userDirectory)) {
+        Storage::disk('public')->makeDirectory($userDirectory, 0755, true);
+    }
 
-    // الحفظ في التخزين العام (public disk)
+    $fileName = $type . '_' . time() . '_' . uniqid() . '.' . $ext;
+    $path = "{$userDirectory}/{$fileName}";
+
+    // 4. الحفظ
     Storage::disk('public')->put($path, $image);
 
     return 'storage/' . $path;
