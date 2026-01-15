@@ -6,5 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class DataSet extends Model
 {
-    protected $fillable = ['image_path' , 'user_id' , 'user_name'];
+    protected $fillable = [
+        'full_image_path',
+        'eye_image_path',
+        'roi_width',
+        'roi_height'
+    ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); 
+    }
 }
