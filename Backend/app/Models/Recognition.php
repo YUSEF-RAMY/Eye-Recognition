@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recognition extends Model
 {
-    protected $fillable = ['person_id', 'status', 'confidence' , 'image_path'];
+    protected $fillable = ['user_id', 'status', 'confidence' , 'image_path'];
 
-    public function person()
+    public function user()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(User::class);
     }
 }
