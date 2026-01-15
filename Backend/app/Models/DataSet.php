@@ -12,4 +12,10 @@ class DataSet extends Model
         'roi_width',
         'roi_height'
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); 
+    }
 }

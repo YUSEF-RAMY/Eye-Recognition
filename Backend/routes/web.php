@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataSetController;
+use App\Http\Controllers\ProfileController;
 use App\Models\DataSet;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    $images = DataSet::orderBy('created_at' , 'desc')->paginate(15);
-    return view('dashboard' , compact('images'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -23,6 +24,9 @@ Route::middleware(['auth'])->group(function () {
     // استقبال الصور وحفظها
     Route::post('/dataset/capture', [DataSetController::class, 'store'])->name('capture.store');
 });
+
+Route::get('register' , [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register' , [RegisteredUserController::class, 'store'])->name('register');
 
 
 Route::middleware('auth')->group(function () {

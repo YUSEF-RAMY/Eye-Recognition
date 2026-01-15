@@ -1,0 +1,37 @@
+Back_end
+├── Contorllers                   #Server_Logic
+│   ├── Api
+│   │   ├── AuthController
+│   │   ├── profileController
+│   │   └── RecognitionController
+│   ├── Web
+│   │   └── DataSetController
+│   ├── Resources                 #Response Form Style
+│   │   ├── UserResource
+│   │   └── RecognitionResource
+│   └── Requests                  #Authentication
+│       └── LoginRequests
+├── Dadabase
+│   ├── Migrations                #All_Tables
+│   │   ├── users
+│   │   ├── dataset
+│   │   └── recognition
+│   └── Seeders                   #Fixed_data
+│       └── users
+├── Resources
+│   ├── css                       #Style
+│   ├── js                        #Clint_Logic
+│   └── views                     #Pages
+│       ├── Layouts
+│       ├── DataSet
+│       ├── Auth
+│       ├── Dashboard
+│       └── Components
+├── Routes                        #End_Points
+│   ├── api
+│   └── web
+└── Storage                       #Store_DataSet
+    └── users
+        └── user_id
+            ├── eye
+            └── face

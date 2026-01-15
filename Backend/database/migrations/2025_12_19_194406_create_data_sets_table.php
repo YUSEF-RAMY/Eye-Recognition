@@ -15,7 +15,7 @@ return new class extends Migration {
 
             $table->string('full_image_path');
             $table->string('eye_image_path');
-
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             // مهم للـ AI
             $table->integer('roi_width')->nullable();
             $table->integer('roi_height')->nullable();

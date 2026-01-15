@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('image_path')->nullable()->default('people/user-1.jpeg');
+            $table->enum('role' , ['sudo' , 'user' , 'team' , 'ai_team']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
