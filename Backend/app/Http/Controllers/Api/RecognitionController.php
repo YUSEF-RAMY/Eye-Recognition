@@ -43,15 +43,17 @@ class RecognitionController extends Controller
                 $name = $json['name'] ?? "الاسم مش جاي";
                 $score = $json['best_score'] ?? "الاسكور مش جاي";
 
+                $scorePercentage = round($score * 100, 2) . '%';
+
                 Recognition::create([
-                    'person_id' => Auth::user()->id,
+                    'user_id' => Auth::user()->id,
                     'status' => 'recognized',
                     'image_path' => $path,
-                    'confidence' => $score,
+                    'confidence' => $scorePercentage,
                 ]);
                 return response()->json([
                     'name' => $name,
-                    'best_score' => $score,
+                    'best_score' => $scorePercentage,
                     'image' => asset('storage/'. $path),
                 ]);
             }

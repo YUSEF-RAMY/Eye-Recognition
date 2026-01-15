@@ -13,6 +13,9 @@ return new class extends Migration {
         Schema::create('recognitions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+
+            $table->string('image_path');
+
             $table->string('status'); // recognized or unknown
             $table->string('confidence')->nullable();
             $table->timestamps();

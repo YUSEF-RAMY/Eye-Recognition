@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('data_sets', function (Blueprint $table) {
             $table->id();
 
-            $table->string('full_image_path');
-            $table->string('eye_image_path');
+            $table->string('eye_image_path')->nullable();
+
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             // مهم للـ AI
             $table->integer('roi_width')->nullable();
