@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataSetController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\AiTeam;
 use App\Http\Middleware\Sudo;
 use App\Models\DataSet;
 use App\Models\User;

@@ -21,7 +21,7 @@
                     Capture Data Set
                 </a>
 
-                @if (Auth::user()->email === 'sudo@sudo.com')
+                @if (Auth::user()->role === 'sudo')
                     <a href="{{ route('register') }}"
                         class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@
     <div class="py-12 bg-[#f8fafc] dark:bg-gray-900 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if (Auth::user()->email === 'sudo@sudo.com')
+            @if (Auth::user()->role === 'sudo' || Auth::user()->role === 'ai_team')
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                     <div
                         class="bg-white dark:bg-gray-800 rounded-3xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
