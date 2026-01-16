@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class AdminUserController extends Controller
@@ -38,5 +39,19 @@ private function customPaginate($items, $perPage, $page, $pageName)
         $page,
         ['path' => request()->url(), 'query' => request()->query(), 'pageName' => $pageName]
     );
+}
+
+
+public function destroy($id)
+{
+    if (Auth::user()->role !== 'sudo') {
+        return back()->with('error', 'Unauthorized action.');
+    }
+
+    $user = User::findOrFail($id);
+
+    $user->delete();
+
+    return back()->with('success', 'User and their data deleted successfully.');
 }
 }

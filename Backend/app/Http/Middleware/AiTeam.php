@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Sudo
+class AiTeam
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Sudo
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role !== 'sudo' && Auth::user()->role !== 'ai_team') {
+        if (Auth::user()->role !== 'ai_team') {
             return redirect()->route('login')->with('error', 'غير مسموح لك بالدخول.');
         }
         return $next($request);

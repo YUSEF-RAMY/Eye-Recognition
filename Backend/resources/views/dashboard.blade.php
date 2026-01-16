@@ -21,7 +21,7 @@
                     Capture Data Set
                 </a>
 
-                @if (Auth::user()->email === 'sudo@sudo.com')
+                @if (Auth::user()->role === 'sudo')
                     <a href="{{ route('register') }}"
                         class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@
     <div class="py-12 bg-[#f8fafc] dark:bg-gray-900 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if (Auth::user()->email === 'sudo@sudo.com')
+            @if (Auth::user()->role === 'sudo' || Auth::user()->role === 'ai_team')
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                     <div
                         class="bg-white dark:bg-gray-800 rounded-3xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
@@ -117,11 +117,34 @@
                                             class="text-xl font-black text-indigo-700 dark:text-indigo-300">{{ $user->storage_count ?? 0 }}</span>
                                     </div>
 
-                                    <div class="pt-2">
+                                    <div class="pt-4 flex flex-col sm:flex-row gap-3">
                                         <a href="{{ route('admin.user.show', $user->id) }}"
-                                            class="flex items-center justify-center w-full px-6 py-4 bg-slate-900 dark:bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-800 dark:hover:bg-indigo-700 transition duration-300 group-hover:scale-[1.02]">
-                                            View User Details
+                                            class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-slate-900 dark:bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-800 dark:hover:bg-indigo-700 transition duration-300 active:scale-95 text-center">
+                                            View Details
                                         </a>
+
+                                        @if (Auth::user()->role === 'sudo')
+                                            <button type="button" onclick="deleteUser({{ $user->id }})"
+                                                class="flex-none sm:w-14 min-h-[56px] flex items-center justify-center p-4 border-2 border-red-100 dark:border-red-900/30 text-red-600 dark:text-red-400 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300 active:scale-95">
+                                                <svg class="w-5 h-5 pointer-events-none" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                    </path>
+                                                </svg>
+                                                <span
+                                                    class="sm:hidden ml-2 font-bold text-xs uppercase tracking-widest">Delete
+                                                    User</span>
+                                            </button>
+
+                                            <form id="delete-form-{{ $user->id }}"
+                                                action="{{ route('admin.user.destroy', $user->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataSetController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\AiTeam;
 use App\Http\Middleware\Sudo;
 use App\Models\DataSet;
 use App\Models\User;
@@ -36,6 +37,10 @@ Route::post('register' , [RegisteredUserController::class, 'store'])->name('regi
 Route::get('/admin/user/{id}', [AdminUserController::class, 'show'])
     ->name('admin.user.show')
     ->middleware(['auth', Sudo::class]);
+
+    Route::delete('/admin/user/{id}', [AdminUserController::class, 'destroy'])
+    ->name('admin.user.destroy')
+    ->middleware(['auth', Sudo::class]); 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
