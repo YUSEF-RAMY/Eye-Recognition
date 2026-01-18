@@ -18,6 +18,7 @@ void main() {
 
 class EyeRecognition extends StatelessWidget {
   const EyeRecognition({super.key});
+
   static String baseUrl = 'https://katydid-champion-mutually.ngrok-free.app';
   static late bool success;
   static late String token;
@@ -27,18 +28,18 @@ class EyeRecognition extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        SplashScreen.id : (context) => SplashScreen(),
-        WelcomeScreen.id : (context) => WelcomeScreen(),
-        LoginScreen.id : (context) => LoginScreen(),
-        UploadProfilePhotoScreen.id : (context) => UploadProfilePhotoScreen(),
-        SignupScreen.id : (context) => SignupScreen(),
-        HomeScreen.id : (context) => HomeScreen(),
-        CameraWithOverlay.id : (context) => CameraWithOverlay(),
-        ProfileScreen.id : (context) => ProfileScreen(),
-        ChangePasswordScreen.id : (context) => ChangePasswordScreen(),
-        ResultsScreen.id : (context) => ResultsScreen(),
+        SplashScreen.id: (context) => SplashScreen(),
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        UploadProfilePhotoScreen.id: (context) => UploadProfilePhotoScreen(),
+        SignupScreen.id: (context) => SignupScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
+        CameraWithOverlay.id: (context) => CameraWithOverlay(),
+        ProfileScreen.id: (context) => ProfileScreen(),
+        ChangePasswordScreen.id: (context) => ChangePasswordScreen(),
+        ResultsScreen.id: (context) => ResultsScreen(),
       },
-      initialRoute: HomeScreen.id,
+      initialRoute: SplashScreen.id,
     );
   }
 }

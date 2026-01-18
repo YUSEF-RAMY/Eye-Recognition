@@ -56,7 +56,6 @@ class _UploadProfilePhotoScreenState extends State<UploadProfilePhotoScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 60.0),
                 child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,

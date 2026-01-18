@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
+import 'dart:developer';
 
 class CameraWithOverlay extends StatefulWidget {
   static String id = 'CameraWithOverlay';
-  final double overlayWidthFraction; // مثلاً 0.5 => 50% من عرض المعاينة
-  final double overlayHeightFraction; // مثلاً 0.3 => 30% من ارتفاع المعاينة
+  final double overlayWidthFraction = 0.7; // مثلاً 0.5 => 50% من عرض المعاينة
+  final double overlayHeightFraction = 0.09;
 
-  const CameraWithOverlay({
-    Key? key,
-    this.overlayWidthFraction = 0.9,
-    this.overlayHeightFraction = 0.1,
-  }) : super(key: key);
+  const CameraWithOverlay({Key? key}) : super(key: key);
 
   @override
   State<CameraWithOverlay> createState() => _CameraWithOverlayState();
@@ -191,109 +188,173 @@ class _CameraWithOverlayState extends State<CameraWithOverlay> {
     return Scaffold(
       appBar: AppBar(title: const Text('Camera with overlay')),
       body: _isInitialized && _controller != null
-          ? Column(
-              children: [
-                // الحاوية التي تحتوي Preview + Overlay
-                Expanded(
-                  child: Container(
-                    key: _previewContainerKey,
-                    color: Colors.black,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        // مهم: نحدّث قياسات واجهة المعاينة عند كل تغيير في layout
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (previewWidgetWidth != constraints.maxWidth ||
-                              previewWidgetHeight != constraints.maxHeight) {
-                            setState(() {
-                              previewWidgetWidth = constraints.maxWidth;
-                              previewWidgetHeight = constraints.maxHeight;
-                            });
-                          }
-                        });
+          ? SafeArea(
+              child: Column(
+                children: [
+                  // الحاوية التي تحتوي Preview + Overlay
+                  Expanded(
+                    child: Container(
+                      key: _previewContainerKey,
+                      color: Colors.black,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          // مهم: نحدّث قياسات واجهة المعاينة عند كل تغيير في layout
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (previewWidgetWidth != constraints.maxWidth ||
+                                previewWidgetHeight != constraints.maxHeight) {
+                              setState(() {
+                                previewWidgetWidth = constraints.maxWidth;
+                                previewWidgetHeight = constraints.maxHeight;
+                              });
+                            }
+                          });
 
-                        return Stack(
-                          children: [
-                            // كاميرا Preview
-                            Positioned.fill(child: CameraPreview(_controller!)),
+                          return Stack(
+                            children: [
+                              // كاميرا Preview
+                              Positioned.fill(
+                                child: CameraPreview(_controller!),
+                              ),
 
-                            // overlay مستطيل مركزي
-                            Center(
-                              child: FractionallySizedBox(
-                                widthFactor: widget.overlayWidthFraction,
-                                heightFactor: widget.overlayHeightFraction,
+                              // overlay مستطيل مركزي
+                              Center(
                                 child: Container(
+                                  height: 38,
+                                  width: 185,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.yellowAccent,
+                                      color: Colors.redAccent,
                                       width: 3,
                                     ),
                                     color: Colors.transparent,
                                   ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 18,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                              (0.5 * 255).toInt(),
+                                              100,
+                                              236,
+                                              295,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(24),
+                                            ),
+                                            border: BoxBorder.all(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                (0.6 * 255).toInt(),
+                                                136,
+                                                255,
+                                                81,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 18,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                              (0.5 * 255).toInt(),
+                                              100,
+                                              236,
+                                              295,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(16),
+                                            ),
+                                            border: BoxBorder.all(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                (0.6 * 255).toInt(),
+                                                136,
+                                                255,
+                                                81,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            // تعليمات بسيطة في الأعلى
-                            Positioned(
-                              top: 16,
-                              left: 16,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                color: Colors.black45,
-                                child: const Text(
-                                  'ضع العين داخل المستطيل ثم اضغط تصوير',
-                                  style: TextStyle(color: Colors.white),
+                              // تعليمات بسيطة في الأعلى
+                              Positioned(
+                                top: 16,
+                                left: 16,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  color: Colors.black45,
+                                  child: const Text(
+                                    'ضع العين داخل المستطيل ثم اضغط تصوير',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
 
-                // أزرار التحكم
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 16,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () => _takePictureAndCrop(),
-                        icon: const Icon(Icons.camera_alt),
-                        label: const Text('التقاط'),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // مثال: تبديل الكاميرا لو متوفرة أكثر من واحدة
-                          if (cameras != null && cameras!.length > 1) {
-                            final idx = cameras!.indexOf(
-                              _controller!.description,
-                            );
-                            final newIdx = (idx + 1) % cameras!.length;
-                            _controller!.dispose();
-                            _controller = CameraController(
-                              cameras![newIdx],
-                              ResolutionPreset.high,
-                            );
-                            _controller!.initialize().then((_) {
+                  // أزرار التحكم
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () => _takePictureAndCrop(),
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text('التقاط'),
+                        ),
+                        const SizedBox(width: 12),
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            log(cameras!.length.toString());
+                            // مثال: تبديل الكاميرا لو متوفرة أكثر من واحدة
+                            if (cameras != null && cameras!.length > 1) {
+                              final idx = cameras!.indexOf(
+                                _controller!.description,
+                              );
+                              log(idx.toString());
+                              final newIdx = (idx + 1) % cameras!.length;
+                              log(newIdx.toString());
+                              await _controller!.dispose();
+                              _controller = CameraController(
+                                cameras![newIdx],
+                                ResolutionPreset.high,
+                                enableAudio: false,
+                              );
+                              await _controller!.initialize();
                               if (!mounted) return;
                               setState(() {});
-                            });
-                          }
-                        },
-                        icon: const Icon(Icons.flip_camera_android),
-                        label: const Text('تبديل'),
-                      ),
-                    ],
+                            }
+                          },
+                          icon: const Icon(Icons.flip_camera_android),
+                          label: const Text('تبديل'),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           : const Center(child: CircularProgressIndicator()),
     );

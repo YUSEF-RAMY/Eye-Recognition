@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 28),
                   Text(
-                    'To start recognition your eye you must Take photo OR choose photo',
+                    'To start recognition your eye you must Take photo',
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
@@ -70,26 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Spacer(),
-                  CustomButton(
-                    text: 'Choose photo',
-                    isWhite: true,
-                    isTransparent: false,
-                    isPrimaryTextColor: false,
-                    onTap: () async {
-                      await pickImage(ImageSource.gallery);
-                      log(EyeRecognition.token);
-                      log(widget.image.path);
-                      String result = await RecognizeRequest().recognizeRequest(
-                        imageFile: widget.image,
-                      );
-                      if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          ResultsScreen.id,
-                        );
-                      }
-                    },
-                  ),
                   SizedBox(height: 24),
                   CustomButton(
                     text: 'Take photo',
@@ -103,28 +83,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                       final File? capturedEyeFile = result as File?;
 
-
                       if (capturedEyeFile == null) {
                         log("No image returned");
                         return;
                       }
+                      widget.image = capturedEyeFile;
 
                       // خزّن الصورة في widget.image
-                      setState(() {
-                        widget.image = capturedEyeFile;
-                      });
 
                       log(widget.image.path);
-
+                      EyeRecognition.success = false;
                       // ابعت الصورة للسيرفر/الـ backend
-                      String message = await RecognizeRequest().recognizeRequest(
+                      String name = await RecognizeRequest().recognizeRequest(
                         imageFile: widget.image,
                       );
-
+                      log(EyeRecognition.success.toString());
                       if (EyeRecognition.success == true) {
                         Navigator.pushReplacementNamed(
                           context,
                           ResultsScreen.id,
+                          arguments: name,
                         );
                       }
                     },

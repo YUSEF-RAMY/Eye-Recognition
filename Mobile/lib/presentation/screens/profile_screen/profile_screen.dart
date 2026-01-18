@@ -88,21 +88,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     child: ClipOval(
-                      child: user.image != null
-                          ? Image.network(
-                              user.image!,
-                              width: 144,
-                              height: 144,
-                              fit: BoxFit.cover,
-                              color: ColorManager.white,
-                            )
-                          : Image.asset(
-                              ImageManager.user,
-                              width: 132,
-                              height: 132,
-                              fit: BoxFit.cover,
-                              color: ColorManager.white,
-                            ),
+                      child: Image.network(
+                        user.image!,
+                        width: 144,
+                        height: 144,
+                        fit: BoxFit.cover,
+                        color: ColorManager.white,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            ImageManager.user,
+                            width: 132,
+                            height: 132,
+                            fit: BoxFit.cover,
+                            color: ColorManager.white,
+                          );
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 8),
