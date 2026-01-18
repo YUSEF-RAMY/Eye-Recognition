@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:eye_recognition/data/models/user_model.dart';
 import 'package:eye_recognition/data/requests/logout_request.dart';
+import 'package:eye_recognition/data/requests/update_profile_image_request.dart';
 import 'package:eye_recognition/data/responses/get_user_info_response.dart';
 import 'package:eye_recognition/main.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
@@ -9,6 +11,7 @@ import 'package:eye_recognition/presentation/resources/color_manager.dart';
 import 'package:eye_recognition/presentation/screens/change_password_screen/change_password_screen.dart';
 import 'package:eye_recognition/presentation/screens/welcome_screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../resources/image_manager.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,6 +26,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<UserModel> _userFuture;
   UserModel? user;
+  late File image;
+  late String imagePath = user!.image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -33,6 +39,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<UserModel> getUserInfo() async {
     user = await GetUserInfoResponse().getUserInfoResponse();
     return user!;
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        image = File(pickedFile.path);
+      });
+    }
   }
 
   @override
@@ -82,27 +97,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0xff9BBEFF).withOpacity(0.75),
-                          Color(0xff8F78FF).withOpacity(0.05),
+                          Color(0xff9BBEFF).withValues(alpha: 0.75),
+                          Color(0xff8F78FF).withValues(alpha: 0.05),
                         ],
                       ),
                     ),
-                    child: ClipOval(
-                      child: user.image != null
-                          ? Image.network(
-                              user.image!,
-                              width: 144,
-                              height: 144,
-                              fit: BoxFit.cover,
-                              color: ColorManager.white,
-                            )
-                          : Image.asset(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await pickImage(ImageSource.gallery);
+                        EyeRecognition.success = false;
+                        log(EyeRecognition.token);
+                        log(image.path);
+                        imagePath = await UpdateProfileImageRequest()
+                            .updateProfileImageRequest(imageFile: image);
+                        if (EyeRecognition.success == true) {
+                          setState(() {});
+                        }
+                      },
+                      child: ClipOval(
+                        child: Image.network(
+                          imagePath,
+                          width: 144,
+                          height: 144,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
                               ImageManager.user,
                               width: 132,
                               height: 132,
                               fit: BoxFit.cover,
                               color: ColorManager.white,
-                            ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 8),
@@ -149,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           Divider(
-                            color: ColorManager.white.withOpacity(0.5),
+                            color: ColorManager.white.withValues(alpha: 0.5),
                             height: 40,
                           ),
                           Row(

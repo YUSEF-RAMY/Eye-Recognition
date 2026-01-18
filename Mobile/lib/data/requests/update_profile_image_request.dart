@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class UpdateProfileImageRequest {
   Future<String> updateProfileImageRequest({required File imageFile}) async {
     Map<String, dynamic> data = await Api().post(
-      url: '${EyeRecognition.baseUrl}/api/recognize',
+      url: '${EyeRecognition.baseUrl}/api/update-profile-image',
       body: {
         'image': await http.MultipartFile.fromPath('image', imageFile.path),
       },
@@ -15,6 +15,6 @@ class UpdateProfileImageRequest {
     );
     log("Upload image Success: ${data}");
     EyeRecognition.success = true;
-    return data['result']; //edit this field from api response
+    return data['image']; //edit this field from api response
   }
 }

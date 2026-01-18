@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
           children: [
             Image.asset(ImageManager.logo, width: 170, height: 115),
             Text(
-              'Eye Recognition',
+              'Eyes Recognition',
               style: TextStyle(
                 color: ColorManager.white,
                 fontSize: 32,

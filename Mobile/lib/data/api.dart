@@ -38,7 +38,7 @@ class Api {
     print('url = $url \n body = $body \n token = $token');
 
     try {
-      // ✅ لو الـ body يحتوي على MultipartFile → نستخدم MultipartRequest
+      //لو ال body يحتوي على MultipartFile -> نستخدم MultipartRequest
       if (body.values.any((v) => v is http.MultipartFile)) {
         var request = http.MultipartRequest('POST', Uri.parse(url));
         request.headers.addAll(headers);
@@ -72,6 +72,7 @@ class Api {
       EyeRecognition.success = false;
       throw Exception('this error from http exception $e');
     } catch (e) {
+      log(e.toString());
       EyeRecognition.success = false;
       throw Exception(e);
     }
@@ -105,6 +106,7 @@ class Api {
     }
   }
 */
+  
   Future<dynamic> put({
     required String url,
     required dynamic body,

@@ -11,17 +11,21 @@ class SignupRequest {
     required String password,
     required String confirmPassword,
   }) async {
+    Map<String, dynamic> body = {
+      'name': userName,
+      'email': email,
+      'password': password,
+      'password_confirmation': confirmPassword,
+    };
+
+// أضف الصورة فقط لو موجودة
+    if (imageFile != null) {
+      body['image'] =
+      await http.MultipartFile.fromPath('image', imageFile.path);
+    }
     Map<String, dynamic> data = await Api().post(
-      url: '${EyeRecognition.baseUrl}', //complete this url
-      body: {
-        'userName': userName,
-        'email': email,
-        'image': imageFile == null
-            ? null
-            : await http.MultipartFile.fromPath('image', imageFile.path),
-        'password': password,
-        'confirmPassword': confirmPassword,
-      },
+      url: '${EyeRecognition.baseUrl}/api/register', //complete this url
+      body: body,
     );
     String oldToken = data['token'];
     String token = oldToken.split('|').last;

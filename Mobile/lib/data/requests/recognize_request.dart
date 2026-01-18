@@ -15,6 +15,6 @@ class RecognizeRequest {
     );
     log("Upload image Success: ${data}");
     EyeRecognition.success = true;
-    return data['result']; //edit this field from api response
+    return data['name']??data['status'];
   }
 }
