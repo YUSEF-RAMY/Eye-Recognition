@@ -93,7 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 144,
                         height: 144,
                         fit: BoxFit.cover,
-                        color: ColorManager.white,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
                             ImageManager.user,

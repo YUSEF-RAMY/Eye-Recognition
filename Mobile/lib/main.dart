@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:eye_recognition/presentation/screens/camera_screen/camera_screen.dart';
 import 'package:eye_recognition/presentation/screens/change_password_screen/change_password_screen.dart';
 import 'package:eye_recognition/presentation/screens/home_screen/home_screen.dart';
