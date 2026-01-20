@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:eye_recognition/data/models/result_model.dart';
 import 'package:eye_recognition/data/requests/recognize_request.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/screens/camera_screen/camera_screen.dart';
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 28),
                   Text(
-                    'To start recognition your eye you must Take photo OR choose photo',
+                    'To start recognition your eyes you must Take photo',
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
@@ -70,26 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Spacer(),
-                  CustomButton(
-                    text: 'Choose photo',
-                    isWhite: true,
-                    isTransparent: false,
-                    isPrimaryTextColor: false,
-                    onTap: () async {
-                      await pickImage(ImageSource.gallery);
-                      log(EyeRecognition.token);
-                      log(widget.image.path);
-                      String result = await RecognizeRequest().recognizeRequest(
-                        imageFile: widget.image,
-                      );
-                      if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          ResultsScreen.id,
-                        );
-                      }
-                    },
-                  ),
                   SizedBox(height: 24),
                   CustomButton(
                     text: 'Take photo',
@@ -97,36 +78,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     isTransparent: false,
                     isPrimaryTextColor: true,
                     onTap: () async {
-                      final result = await Navigator.pushNamed(
-                        context,
-                        CameraWithOverlay.id,
-                      );
-                      final File? capturedEyeFile = result as File?;
-
+                      final File? capturedEyeFile =
+                          await Navigator.pushNamed(
+                                context,
+                                CameraWithOverlay.id,
+                              )
+                              as File?;
 
                       if (capturedEyeFile == null) {
                         log("No image returned");
                         return;
                       }
+                      widget.image = capturedEyeFile;
 
                       // خزّن الصورة في widget.image
-                      setState(() {
-                        widget.image = capturedEyeFile;
-                      });
 
                       log(widget.image.path);
-
+                      EyeRecognition.success = false;
                       // ابعت الصورة للسيرفر/الـ backend
-                      String message = await RecognizeRequest().recognizeRequest(
-                        imageFile: widget.image,
-                      );
-
-                      if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          ResultsScreen.id,
-                        );
+                      Map<String, dynamic> response = await RecognizeRequest()
+                          .recognizeRequest(imageFile: widget.image);
+                      try {
+                        ResultModel result = ResultModel.fromjson(response);
+                        if (EyeRecognition.success == true) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            ResultsScreen.id,
+                            arguments: result,
+                          );
+                        }
+                      } catch (e) {
+                        String status = response['status'];
+                        if (EyeRecognition.success == true) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            ResultsScreen.id,
+                            arguments: status,
+                          );
+                        }
                       }
+                      log(EyeRecognition.success.toString());
                     },
                   ),
                   Spacer(),

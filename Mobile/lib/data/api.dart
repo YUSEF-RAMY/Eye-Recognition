@@ -38,13 +38,13 @@ class Api {
     print('url = $url \n body = $body \n token = $token');
 
     try {
-      // ✅ لو الـ body يحتوي على MultipartFile → نستخدم MultipartRequest
+      //لو ال body يحتوي على MultipartFile -> نستخدم MultipartRequest
       if (body.values.any((v) => v is http.MultipartFile)) {
         var request = http.MultipartRequest('POST', Uri.parse(url));
         request.headers.addAll(headers);
 
         // إضافة الحقول (لو في نصوص)
-        body.forEach((key, value) async {
+        body.forEach((key, value) {
           if (value is http.MultipartFile) {
             request.files.add(value);
           } else {
@@ -56,7 +56,7 @@ class Api {
         var response = await http.Response.fromStream(streamedResponse);
 
         log(response.body);
-        EyeRecognition.success = response.statusCode == 200;
+        EyeRecognition.success = true;
         return jsonDecode(response.body);
       } else {
         http.Response response = await http.post(
@@ -64,14 +64,19 @@ class Api {
           body: body,
           headers: headers,
         );
+        log("status = ${response.statusCode}");
         log(response.body);
-        EyeRecognition.success = true;
-        return jsonDecode(response.body);
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          EyeRecognition.success = true;
+          final data = jsonDecode(response.body);
+          return data;
+        }
       }
     } on HttpException catch (e) {
       EyeRecognition.success = false;
       throw Exception('this error from http exception $e');
     } catch (e) {
+      log(e.toString());
       EyeRecognition.success = false;
       throw Exception(e);
     }
@@ -105,6 +110,7 @@ class Api {
     }
   }
 */
+
   Future<dynamic> put({
     required String url,
     required dynamic body,
