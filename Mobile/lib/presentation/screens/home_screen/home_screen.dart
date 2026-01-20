@@ -77,11 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     isTransparent: false,
                     isPrimaryTextColor: true,
                     onTap: () async {
-                      final result = await Navigator.pushNamed(
+                      final File? capturedEyeFile = await Navigator.pushNamed(
                         context,
                         CameraWithOverlay.id,
                       );
-                      final File? capturedEyeFile = result as File?;
 
                       if (capturedEyeFile == null) {
                         log("No image returned");

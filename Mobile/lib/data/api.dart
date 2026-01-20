@@ -44,7 +44,7 @@ class Api {
         request.headers.addAll(headers);
 
         // إضافة الحقول (لو في نصوص)
-        body.forEach((key, value) async {
+        body.forEach((key, value) {
           if (value is http.MultipartFile) {
             request.files.add(value);
           } else {
@@ -56,7 +56,7 @@ class Api {
         var response = await http.Response.fromStream(streamedResponse);
 
         log(response.body);
-        EyeRecognition.success = response.statusCode == 200;
+        EyeRecognition.success = true;
         return jsonDecode(response.body);
       } else {
         http.Response response = await http.post(
@@ -64,9 +64,13 @@ class Api {
           body: body,
           headers: headers,
         );
+        log("status = ${response.statusCode}");
         log(response.body);
-        EyeRecognition.success = true;
-        return jsonDecode(response.body);
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          EyeRecognition.success = true;
+          final data = jsonDecode(response.body);
+          return data;
+        }
       }
     } on HttpException catch (e) {
       EyeRecognition.success = false;
@@ -106,7 +110,7 @@ class Api {
     }
   }
 */
-  
+
   Future<dynamic> put({
     required String url,
     required dynamic body,

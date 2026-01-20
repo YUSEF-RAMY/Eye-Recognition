@@ -8,10 +8,8 @@ import 'dart:developer';
 
 class CameraWithOverlay extends StatefulWidget {
   static String id = 'CameraWithOverlay';
-  final double overlayWidthFraction = 0.7; // مثلاً 0.5 => 50% من عرض المعاينة
-  final double overlayHeightFraction = 0.09;
 
-  const CameraWithOverlay({Key? key}) : super(key: key);
+  const CameraWithOverlay({super.key});
 
   @override
   State<CameraWithOverlay> createState() => _CameraWithOverlayState();
@@ -24,6 +22,10 @@ class _CameraWithOverlayState extends State<CameraWithOverlay> {
 
   // نستخدم key لقياس حجم preview widget على الشاشة
   final GlobalKey _previewContainerKey = GlobalKey();
+
+  // مقاس المستطيل الثابت (logical pixels)
+  static const double overlayFixedWidth = 185;
+  static const double overlayFixedHeight = 38;
 
   // أبعاد واجهة المعاينة الحالية بالـ logical pixels
   double previewWidgetWidth = 0;
@@ -103,39 +105,44 @@ class _CameraWithOverlayState extends State<CameraWithOverlay> {
     final int imgW = captured.width;
     final int imgH = captured.height;
 
-    // لو قياسات preview غير معروفة، نفترض مركزية ونأخذ نسب ثابتة:
-    if (previewWidgetWidth == 0 || previewWidgetHeight == 0) {
-      // استخدم نسبة الافتراضية
-      previewWidgetWidth = imgW.toDouble();
-      previewWidgetHeight = imgH.toDouble();
+    final previewSize = _controller!.value.previewSize!;
+    final double previewAspectRatio = previewSize.height / previewSize.width;
+
+    final double widgetAspectRatio = previewWidgetHeight / previewWidgetWidth;
+
+    // حساب الجزء المرئي فعليًا من الصورة
+    double visibleW, visibleH;
+
+    if (widgetAspectRatio > previewAspectRatio) {
+      // الصورة متقصوصة من الجوانب
+      visibleH = imgH.toDouble();
+      visibleW = visibleH / widgetAspectRatio;
+    } else {
+      // الصورة متقصوصة من فوق وتحت
+      visibleW = imgW.toDouble();
+      visibleH = visibleW * widgetAspectRatio;
     }
 
-    // نسبة المستطيل في الواجهة
-    final double overlayW = widget.overlayWidthFraction; // 0..1
-    final double overlayH = widget.overlayHeightFraction;
+    // إزاحة الجزء المرئي داخل الصورة الحقيقية
+    final double offsetX = (imgW - visibleW) / 2;
+    final double offsetY = (imgH - visibleH) / 2;
 
-    // نحدد موقع المستطيل كنسبة من الواجهة (نفرض مركزي)
-    final double overlayPixelW_onWidget = previewWidgetWidth * overlayW;
-    final double overlayPixelH_onWidget = previewWidgetHeight * overlayH;
+    // تحويل overlay من UI → image pixels
+    final double scaleX = visibleW / previewWidgetWidth;
+    final double scaleY = visibleH / previewWidgetHeight;
 
-    // نسبة المستطيل من عرض/ارتفاع الواجهة
-    final double ratioW = overlayPixelW_onWidget / previewWidgetWidth;
-    final double ratioH = overlayPixelH_onWidget / previewWidgetHeight;
+    final int cropW = (overlayFixedWidth * scaleX).round();
+    final int cropH = (overlayFixedHeight * scaleY).round();
 
-    // نحولها إلى حجم بالبيكسل في الصورة الحقيقية
-    final int cropW = (imgW * ratioW).toInt();
-    final int cropH = (imgH * ratioH).toInt();
-
-    // لأن المستطيل مركزي على الواجهة، نحسب مركز الصورة ثم نحدد x,y
-    final int centerX = (imgW / 2).toInt();
-    final int centerY = (imgH / 2).toInt();
+    // مركز المستطيل المرئي
+    final int centerX = (offsetX + visibleW / 2).round();
+    final int centerY = (offsetY + visibleH / 2).round();
 
     int x = (centerX - cropW / 2).round();
     int y = (centerY - cropH / 2).round();
 
-    // ضمان ألا تكون الإحداثيات خارج الصورة
-    x = x.clamp(0, imgW - 1 - cropW.clamp(0, imgW));
-    y = y.clamp(0, imgH - 1 - cropH.clamp(0, imgH));
+    x = x.clamp(0, imgW - cropW);
+    y = y.clamp(0, imgH - cropH);
 
     final cropped = img.copyCrop(
       captured,
@@ -186,7 +193,15 @@ class _CameraWithOverlayState extends State<CameraWithOverlay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Camera with overlay')),
+      appBar: AppBar(
+        title: const Text('Camera with overlay'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: _isInitialized && _controller != null
           ? SafeArea(
               child: Column(
@@ -229,7 +244,9 @@ class _CameraWithOverlayState extends State<CameraWithOverlay> {
                                     color: Colors.transparent,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
