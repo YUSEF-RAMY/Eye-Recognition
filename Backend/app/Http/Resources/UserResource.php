@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'image' => asset('storage/' . $this->image_path),
+            'role' => $this->role === 'sudo' ? 'Admin' : 'User',
             'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }

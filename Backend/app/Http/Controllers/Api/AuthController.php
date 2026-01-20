@@ -46,7 +46,7 @@ class AuthController extends Controller
         $url = null; 
         if($request->hasFile('image')){
             $path = $request->file('image')->store('users', 'public');
-            $url = asset('storage/'. $path);
+            // $url = asset('storage/'. $path);
         }else{
             $url = asset('storage/people/user-1.jpeg');
         }
@@ -70,7 +70,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = $request->user();
+
+        if ($user) {
+            $user->tokens()->delete();
+        }
         return response()->json(['message' => 'You Have Been Logged Out Successfully'], 200);
     }
 }
