@@ -5,7 +5,7 @@ import 'package:eye_recognition/main.dart';
 import 'package:http/http.dart' as http;
 
 class RecognizeRequest {
-  Future<String> recognizeRequest({required File imageFile}) async {
+  Future<Map<String, dynamic>> recognizeRequest({required File imageFile}) async {
     Map<String, dynamic> data = await Api().post(
       url: '${EyeRecognition.baseUrl}/api/recognize',
       body: {
@@ -15,6 +15,6 @@ class RecognizeRequest {
     );
     log("Upload image Success: ${data}");
     EyeRecognition.success = true;
-    return data['name']??data['status'];
+    return data;
   }
 }

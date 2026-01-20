@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:eye_recognition/data/models/result_model.dart';
 import 'package:eye_recognition/data/requests/recognize_request.dart';
 import 'package:eye_recognition/presentation/components/custom_button.dart';
 import 'package:eye_recognition/presentation/screens/camera_screen/camera_screen.dart';
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 28),
                   Text(
-                    'To start recognition your eye you must Take photo',
+                    'To start recognition your eyes you must Take photo',
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
@@ -77,10 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     isTransparent: false,
                     isPrimaryTextColor: true,
                     onTap: () async {
-                      final File? capturedEyeFile = await Navigator.pushNamed(
-                        context,
-                        CameraWithOverlay.id,
-                      );
+                      final File? capturedEyeFile =
+                          await Navigator.pushNamed(
+                                context,
+                                CameraWithOverlay.id,
+                              )
+                              as File?;
 
                       if (capturedEyeFile == null) {
                         log("No image returned");
@@ -93,17 +96,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       log(widget.image.path);
                       EyeRecognition.success = false;
                       // ابعت الصورة للسيرفر/الـ backend
-                      String name = await RecognizeRequest().recognizeRequest(
-                        imageFile: widget.image,
-                      );
-                      log(EyeRecognition.success.toString());
-                      if (EyeRecognition.success == true) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          ResultsScreen.id,
-                          arguments: name,
-                        );
+                      Map<String, dynamic> response = await RecognizeRequest()
+                          .recognizeRequest(imageFile: widget.image);
+                      try {
+                        ResultModel result = ResultModel.fromjson(response);
+                        if (EyeRecognition.success == true) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            ResultsScreen.id,
+                            arguments: result,
+                          );
+                        }
+                      } catch (e) {
+                        String status = response['status'];
+                        if (EyeRecognition.success == true) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            ResultsScreen.id,
+                            arguments: status,
+                          );
+                        }
                       }
+                      log(EyeRecognition.success.toString());
                     },
                   ),
                   Spacer(),
