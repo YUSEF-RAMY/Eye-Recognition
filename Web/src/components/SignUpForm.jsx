@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { FaEnvelope, FaUser, FaEye, FaEyeSlash, FaImage } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { register } from "../services/register";
+import { useToken } from "../contexts/TokenProvider";
 
 function SignUpForm({ setIsSignUp }) {
   const [step, setStep] = useState(1); // 1 = form , 2 = upload photo
+  const { setToken } = useToken();
 
   // Step 1 States
   const [fullName, setFullName] = useState("");
@@ -13,10 +16,22 @@ function SignUpForm({ setIsSignUp }) {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
-
-  // Step 2 States
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageBlob, setImageBlob] = useState(null);
+
+  const onSetImage = useEffectEvent(() => {
+    setImageBlob(URL.createObjectURL(selectedImage));
+  });
+
+  useEffect(() => {
+    // prettier-ignore
+    if (selectedImage instanceof File)
+      onSetImage();
+  }, [selectedImage]);
+
+  console.log(imageBlob);
+
+  const navigate = useNavigate();
 
   // -------- Validation Function ----------
   const validate = () => {
@@ -51,25 +66,32 @@ function SignUpForm({ setIsSignUp }) {
   // -------- Upload Image ----------
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
-    }
+    if (file) setSelectedImage(file);
   };
 
   // -------- Final Submit ----------
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     console.log("Account Created:", {
       fullName,
       email,
       password,
       selectedImage: selectedImage || "No image uploaded",
     });
-     navigate("/home");
+
+    const { token } = await register(
+      fullName,
+      email,
+      selectedImage,
+      password,
+      confirmPassword
+    );
+
+    setToken(token);
+    navigate("/");
   };
 
   return (
     <div className="form-wrapper">
-
       {/* ---------------- STEP 1 ---------------- */}
       {step === 1 && (
         <>
@@ -130,9 +152,7 @@ function SignUpForm({ setIsSignUp }) {
               />
               <span
                 className="input-icon password-toggle"
-                onClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
@@ -167,7 +187,7 @@ function SignUpForm({ setIsSignUp }) {
           {/* Image Preview */}
           {selectedImage && (
             <img
-              src={selectedImage}
+              src={imageBlob}
               alt="preview"
               className="preview-img"
               style={{
@@ -199,10 +219,7 @@ function SignUpForm({ setIsSignUp }) {
             Sign Up
           </button>
 
-          <button
-            className="signup-btn"
-            onClick={() => setStep(1)}
-          >
+          <button className="signup-btn" onClick={() => setStep(1)}>
             Back
           </button>
         </>

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Settings() {
+  /* ================== Styles ================== */
   const containerStyle = {
     display: "flex",
     maxWidth: 900,
+    minHeight: "500px",
     margin: "40px auto",
     borderRadius: 24,
     backgroundColor: "#faf9f7",
@@ -14,223 +16,152 @@ export default function Settings() {
   };
 
   const leftPanelStyle = {
-    flex: "0 0 280px",
+    flex: "0 0 300px",
     backgroundColor: "white",
-    padding: "30px",
+    padding: "40px 20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 20,
-    borderRight: "1px solid #ddd",
+    borderRight: "1px solid #eee",
   };
 
-  const userImageStyle = {
-    width: 130,
-    height: 130,
-    borderRadius: "50%",
-    objectFit: "cover",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+  const userImageContainer = {
     position: "relative",
-  };
-
-  const editIconStyle = {
-    position: "absolute",
-    bottom: 12,
-    right: 12,
-    backgroundColor: "#061128",
+    width: 140,
+    height: 140,
+    marginBottom: 20,
     borderRadius: "50%",
-    width: 30,
-    height: 30,
+    backgroundColor: "#061128", 
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "white",
-    fontWeight: "bold",
+    border: "4px solid #f0f0f0",
+    overflow: "hidden",
+  };
+
+  const userImageStyle = {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  };
+
+  const rightPanelStyle = {
+    flex: 1,
+    padding: "50px 60px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  };
+
+  const infoBoxStyle = {
+    width: "100%",
+    padding: "18px 0",
+    borderRadius: 20,
+    backgroundColor: "#f6f6f6",
     fontSize: 18,
-    cursor: "pointer",
-  };
-
-  const userNameStyle = {
-    fontSize: 22,
-    fontWeight: "700",
-    marginTop: 15,
+    color: "#333",
     textAlign: "center",
+    border: "1px solid #efefef",
+    fontWeight: "500"
   };
 
-  const userRoleStyle = {
-    fontWeight: "500",
-    color: "gray",
-    fontSize: 15,
-    marginBottom: 30,
+  const labelStyle = {
+    display: "block",
+    fontSize: 13,
+    color: "#aaa",
+    marginBottom: 8,
+    textAlign: "center",
+    textTransform: "uppercase",
   };
 
   const navLinkStyle = (active = false) => ({
     width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    padding: "10px 18px",
-    borderRadius: 20,
-    marginBottom: 15,
+    padding: "12px 0",
+    borderRadius: 25,
+    marginBottom: 10,
     cursor: "pointer",
-    color: active ? "white" : "#777",
+    color: active ? "white" : "#888",
     backgroundColor: active ? "#061128" : "transparent",
-    fontWeight: active ? "600" : "normal",
+    fontWeight: active ? "600" : "500",
     fontSize: 15,
-    userSelect: "none",
+    textAlign: "center",
   });
 
-  const rightPanelStyle = {
-    flex: "1 1 auto",
-    padding: "40px 50px",
-  };
+  /* ================== State ================== */
+  const [user, setUser] = useState({ name: "", email: "" });
+  const [imageBlob, setImageBlob] = useState(null); // لتخزين الصورة كبيانات خام
 
-  const sectionTitleStyle = {
-    fontSize: 18,
-    fontWeight: "700",
-    marginBottom: 20,
-  };
+  /* ================== Fetch Data & Image ================== */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const headers = {
+          "Authorization": `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "69420",
+        };
 
-  const inputGroupRowStyle = {
-    display: "flex",
-    gap: 20,
-    marginBottom: 20,
-  };
+        // 1. جلب بيانات المستخدم
+        const res = await fetch("https://katydid-champion-mutually.ngrok-free.app/api/show-user-info", { headers });
+        if (res.ok) {
+          const result = await res.json();
+          const userData = result.data;
+          setUser({ name: userData.name, email: userData.email });
 
-  const inputWrapperStyle = {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-  };
+          // 2. جلب الصورة كـ Blob لتخطي حظر المتصفح (Opaque Blocking)
+          if (userData.image) {
+            const imgRes = await fetch(userData.image, { headers });
+            const blob = await imgRes.blob();
+            setImageBlob(URL.createObjectURL(blob)); // تحويل البيانات لرابط مؤقت يظهر فوراً
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data or image:", error);
+      }
+    };
 
-  const labelStyle = {
-    fontSize: 12,
-    color: "#999",
-    marginBottom: 6,
-  };
-
-  const inputStyle = {
-    padding: "12px 16px",
-    borderRadius: 20,
-    border: "1px solid #e6e6e6",
-    backgroundColor: "#f6f6f6",
-    fontSize: 15,
-    outline: "none",
-    transition: "border 0.3s",
-  };
-
-  const verifiedBadgeStyle = {
-    marginLeft: 10,
-    color: "#44bb44",
-    fontWeight: "700",
-    fontSize: 13,
-  };
-
-  const changePassButtonStyle = {
-    marginTop: 30,
-    alignSelf: "flex-start",
-    padding: "12px 28px",
-    borderRadius: 20,
-    border: "none",
-    fontSize: 16,
-    fontWeight: "700",
-    cursor: "pointer",
-    color: "white",
-    background:
-      "linear-gradient(135deg, #061128 0%, #0b1c41ff 100%)",
-    boxShadow: "0 6px 20px rgba(84, 118, 232, 0.7)",
-    transition: "background 0.3s ease",
-  };
-
-  // Simulate fetching user data from API
-  const [user, setUser] = useState({
-    image:
-      "https://randomuser.me/api/portraits/men/75.jpg", 
-    firstName: "Roland",
-    lastName: "Donald",
-    email: "rolandDonald@mail.com",
-    address: "3605 Parker Rd.",
-    phone: "(405) 555-0128",
-    dob: "1995-02-01",
-    location: "Atlanta, USA",
-    postalCode: "30301",
-    gender: "Male",
-  });
-
-  const [editableUser, setEditableUser] = useState(user);
-
-  // Handle form changes
-  const handleChange = (key, val) => {
-    setEditableUser((prev) => ({
-      ...prev,
-      [key]: val,
-    }));
-  };
+    fetchData();
+  }, []);
 
   return (
     <div style={containerStyle}>
       {/* Left Panel */}
       <div style={leftPanelStyle}>
-        <div style={{ position: "relative" }}>
-          <img src={user.image} alt="User Avatar" style={userImageStyle} />
-          <div style={editIconStyle} title="Edit Image">
-            ✎
+        <div style={userImageContainer}>
+          {imageBlob ? (
+            <img src={imageBlob} alt="Profile" style={userImageStyle} />
+          ) : (
+            <span style={{ fontSize: 60, color: "white" }}>
+              {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+            </span>
+          )}
+        </div>
+
+        <h3 style={{ fontSize: 24, marginBottom: 40, fontWeight: "700" }}>{user.name || "Loading..."}</h3>
+
+        <div style={{ width: "100%" }}>
+          <div style={navLinkStyle(true)}>Personal Information</div>
+          <div style={navLinkStyle(false)} onClick={() => { localStorage.removeItem("token"); window.location.reload(); }}>
+            Log Out
           </div>
         </div>
-        <div style={userNameStyle}>
-          {user.firstName} {user.lastName}
-        </div>
-        
-
-        <div style={navLinkStyle(true)}>Personal Information</div>
-        
-        <div style={navLinkStyle(false)}>Log Out</div>
       </div>
 
       {/* Right Panel */}
       <div style={rightPanelStyle}>
-        <h2 style={sectionTitleStyle}>Personal Information</h2>
+        <h2 style={{ textAlign: "center", fontSize: 32, marginBottom: 50, fontWeight: "800" }}>
+          Personal Information
+        </h2>
 
-        {/* Gender radio buttons */}
-        
-
-        {/* Name Inputs */}
-        <div style={inputGroupRowStyle}>
-          <div style={inputWrapperStyle}>
-            <label style={labelStyle} htmlFor="firstName">User Name</label>
-            <input
-              id="firstName"
-              style={inputStyle}
-              value={editableUser.firstName}
-              onChange={(e) => handleChange("firstName", e.target.value)}
-              placeholder="First Name"
-            />
-          </div>
-          
+        <div style={{ marginBottom: 35 }}>
+          <label style={labelStyle}>User Name</label>
+          <div style={infoBoxStyle}>{user.name || "---"}</div>
         </div>
 
-        {/* Email */}
-        <div style={inputWrapperStyle}>
-          <label style={labelStyle} htmlFor="email">Email</label>
-          <input
-            id="email"
-            style={inputStyle}
-            value={editableUser.email}
-            onChange={(e) => handleChange("email", e.target.value)}
-            placeholder="Email"
-          />
-          <span style={verifiedBadgeStyle}>&#10003; Verified</span>
+        <div style={{ marginBottom: 35 }}>
+          <label style={labelStyle}>Email Address</label>
+          <div style={infoBoxStyle}>{user.email || "---"}</div>
         </div>
-
-        
-
-        {/* Change Password Button */}
-        <button
-          style={changePassButtonStyle}
-          onClick={() => alert("Change Password clicked")}
-        >
-          Change Password
-        </button>
       </div>
     </div>
   );
