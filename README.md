@@ -89,9 +89,10 @@ Allows users to:
 | Python           | AI & Image Processing |
 | Jupyter Notebook | Model Development     |
 | PHP              | Backend Development   |
-| JavaScript       | Web Functionality     |
+| Laravel          | Backend framework     |
+| React            | Web Functionality     |
 | Dart             | Mobile Application    |
-| CSS              | UI Design             |
+| Figma            | UI Design             |
 
 ---
 
@@ -106,6 +107,7 @@ Eye-Recognition
 │
 ├── Backend
 │   ├── API
+|   ├── Logic
 │   └── Database
 │
 ├── Web
@@ -113,9 +115,8 @@ Eye-Recognition
 │   └── User Dashboard
 │
 ├── Mobile
-│   └── Mobile Application
-│
-└── README.md
+    └── Mobile Application
+
 ```
 
 ---
@@ -150,25 +151,15 @@ Use the web interface or mobile application to capture and send eye images for r
 
 ---
 
-# 🌐 Deployment
-
-The system is currently deployed using **ngrok** for testing purposes.
-
-Access the system through:
-
-katydid-champion-mutually.ngrok-free.app
-
----
-
 # 👥 Project Contributors
 
 | Name             | Role                                    |
 | ---------------- | --------------------------------------- |
-| Amr Saleh        | Backend Development                     |
-| Yusef Ramy       | System Development                      |
-| Yousef Samir     | AI Models                               |
-| Maryam Elazab    | UI / Frontend                           |
-| Heba Ibrahim     | AI Models  
+| Amr Saleh        | Mobile Development                      |
+| Yusef Ramy       | Backend & API Development               |
+| Maryam Elazab    | UI & Frontend                           |
+| Yousef Samir     | AI Models                               |                          |
+| Heba Ibrahim     | AI Models                               |
 
 ---
 
